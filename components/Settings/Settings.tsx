@@ -1,51 +1,29 @@
 import React from 'react';
-import {Alert, Button, SafeAreaView, Text, TextInput, View,} from 'react-native';
+import {Button, SafeAreaView, Text, TextInput, View,} from 'react-native';
 
-class Settings extends React.Component {
+const Settings = (props: any) => {
 
-    state = {
-        playerA: '',
-        playerB: '',
-        timeToPlay: '45'
-    }
+    const [playerA, onChangePlayerA] = React.useState('');
+    const [playerB, onChangePlayerB] = React.useState('');
+    const [timeToPlay, onChangeTimeToPlay] = React.useState('45');
 
-    render = () => {
-        // const [playerA, onChangePlayerA] = React.useState('');
-        // const [playerB, onChangePlayerB] = React.useState('');
-        // const [timeToPlay, onChangeTimeToPlay] = React.useState('45');
-
-
-        return (
-            <View>
-                <Text>Settings !</Text>
-                <SafeAreaView>
-                    <TextInput onChangeText={this.onChangePlayerA} value={this.state.playerA} placeholder="Joueur A"/>
-                    <TextInput onChangeText={this.onChangePlayerB} value={this.state.playerB} placeholder="Joueur B"/>
-                    <TextInput onChangeText={this.onChangeTimeToPlay} value={this.state.timeToPlay}/>
-                    <Button title="Press me" onPress={
-                        () => {
-                            Alert.alert('Simple Button pressed' + this.state.timeToPlay + this.state.playerA + this.state.playerB);
-                        }
-                    }/>
-                </SafeAreaView>
-            </View>
-        )
-    }
-    private onChangePlayerA = (text: string) => {
-        this.setState({
-            playerA: text
-        });
-    }
-    private onChangePlayerB = (text: string) => {
-        this.setState({
-            playerB: text
-        });
-    }
-    private onChangeTimeToPlay = (text: string) => {
-        this.setState({
-            timeToPlay: text
-        });
-    }
+    return (
+        <View>
+            <Text>Settings !</Text>
+            <SafeAreaView>
+                <TextInput onChangeText={onChangePlayerA} value={playerA} placeholder='Joueur A'/>
+                <TextInput onChangeText={onChangePlayerB} value={playerB} placeholder='Joueur B'/>
+                <TextInput onChangeText={onChangeTimeToPlay} value={timeToPlay}/>
+                <Button title="Press me" onPress={() => {
+                    props.onSettingsChange({
+                        playerA,
+                        playerB,
+                        timeToPlay
+                    });
+                }}/>
+            </SafeAreaView>
+        </View>
+    )
 }
 
 export default Settings;
