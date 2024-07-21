@@ -30,11 +30,10 @@ class Scorer extends React.Component {
             return (
                 <View>
                     <Settings onSettingsChange={this.onSettingsChange}></Settings>
-                    <Timer></Timer>
                 </View>
             );
         }
-        
+
         const {settings} = this.state;
         return (
             <View>
