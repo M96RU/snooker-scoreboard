@@ -6,6 +6,7 @@ import Settings from "../../components/Settings";
 class Scorer extends React.Component {
 
     state = {
+        displaySettings: true,
         settings: {
             playerA: '',
             playerB: '',
@@ -15,21 +16,30 @@ class Scorer extends React.Component {
 
     onSettingsChange = (settings) => {
         this.setState({
+            displaySettings: false,
             settings: {
-                playerA: settings.playerA,
-                playerB: settings.playerB,
+                playerA: settings.playerA || 'J1',
+                playerB: settings.playerB || 'J2',
                 timeToPlay: settings.timeToPlay
             }
         })
     }
 
     render() {
+        if (this.state.displaySettings) {
+            return (
+                <View>
+                    <Settings onSettingsChange={this.onSettingsChange}></Settings>
+                    <Timer></Timer>
+                </View>
+            );
+        }
+        
         const {settings} = this.state;
         return (
             <View>
-                <Settings onSettingsChange={this.onSettingsChange}></Settings>
-                <Timer></Timer>
                 <Text>{settings.playerA} - {settings.playerB}</Text>
+                <Timer></Timer>
             </View>
         );
     }
