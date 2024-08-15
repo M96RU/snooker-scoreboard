@@ -38,7 +38,7 @@ class Scorer extends React.Component {
         return (
             <View>
                 <Text>{settings.playerA} - {settings.playerB}</Text>
-                <Timer></Timer>
+                <Timer {...settings}></Timer>
             </View>
         );
     }

@@ -1,10 +1,9 @@
-import React, {useEffect} from 'react';
-import {Alert, Button, StyleSheet, Text, Vibration, View,} from 'react-native';
+import React from 'react';
+import {Button, StyleSheet, Text, Vibration, View} from "react-native";
 
-const Timer = () => {
+const Timer = (props: any) => {
 
     const afterBreak = 90;
-    const secondToPLay = 45;
 
     const now = () => {
         return new Date().getTime();
@@ -27,7 +26,7 @@ const Timer = () => {
     // true after alert
     const [alreadyAlertEnd, setAlreadyAlertEnd] = React.useState(false);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const id = setTimeout(() => {
             setTime(now())
         }, 100);
@@ -51,7 +50,7 @@ const Timer = () => {
     }
     const next = () => {
         setAlreadyBreak(true);
-        setTimeToPlay(secondToPLay);
+        setTimeToPlay(props.timeToPlay);
         setClicked(now());
         setAlreadyAlert(false);
         setAlreadyAlertEnd(false);
@@ -66,7 +65,7 @@ const Timer = () => {
             setAlreadyAlert(true);
         }
 
-        if (remains == 0 && !alreadyAlertEnd) {
+        if (remains === 0 && !alreadyAlertEnd) {
             Vibration.vibrate();
             setAlreadyAlertEnd(true);
         }
