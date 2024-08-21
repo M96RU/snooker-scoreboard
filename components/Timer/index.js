@@ -1,1 +1,1 @@
-export {default} from './Timer'
+export {default, TimerProps} from './Timer'

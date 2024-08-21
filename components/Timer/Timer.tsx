@@ -1,9 +1,12 @@
 import React from 'react';
 import {Button, StyleSheet, Text, Vibration, View} from "react-native";
 
-const Timer = (props: any) => {
+export interface TimerProps {
+    timeAfterBreak: number,
+    timeToPlay: number,
+}
 
-    const afterBreak = 90;
+const Timer = (props: TimerProps) => {
 
     const now = () => {
         return new Date().getTime();
@@ -16,7 +19,7 @@ const Timer = (props: any) => {
     const [clicked, setClicked] = React.useState(0);
 
     // last click time
-    const [timeToPlay, setTimeToPlay] = React.useState(afterBreak);
+    const [timeToPlay, setTimeToPlay] = React.useState(props.timeAfterBreak);
 
     // true after break
     const [alreadyBreak, setAlreadyBreak] = React.useState(false);
@@ -29,7 +32,7 @@ const Timer = (props: any) => {
     React.useEffect(() => {
         const id = setTimeout(() => {
             setTime(now())
-        }, 100);
+        }, 300);
         return () => {
             clearTimeout(id);
         };
@@ -43,7 +46,7 @@ const Timer = (props: any) => {
     }
     const restart = () => {
         setClicked(0);
-        setTimeToPlay(afterBreak);
+        setTimeToPlay(props.timeAfterBreak);
         setAlreadyBreak(false);
         setAlreadyAlert(false);
         setAlreadyAlertEnd(false);
@@ -55,6 +58,7 @@ const Timer = (props: any) => {
         setAlreadyAlert(false);
         setAlreadyAlertEnd(false);
     }
+//    console.log("Here at " + now());
 
     if (clicked > 0) {
         const duration = Math.ceil((time - clicked) / 1000);
