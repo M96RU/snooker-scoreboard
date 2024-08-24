@@ -36,7 +36,7 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
         if (this.state.displaySettings) {
             return (
                 <View>
-                    <Settings onSettingsChange={this.onSettingsChange} settings={this.state.settings}></Settings>
+                    <Settings onSettingsChange={this.onSettingsChange} timer={this.state.settings}></Settings>
                 </View>
             );
         }
