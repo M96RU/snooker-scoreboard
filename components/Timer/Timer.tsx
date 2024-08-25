@@ -10,6 +10,8 @@ export interface TimerProps {
 
 const Timer = (props: TimerProps) => {
 
+    const ONE_SECOND_IN_MS = 1000;
+
     const now = () => {
         return new Date().getTime();
     }
@@ -23,6 +25,7 @@ const Timer = (props: TimerProps) => {
     // last click time
     const [timeToPlay, setTimeToPlay] = React.useState(props.timeAfterBreak);
 
+    const [extensionAllowed, setExtensionAllowed] = React.useState(false);
     const [alreadyExtensionA, setAlreadyExtensionA] = React.useState(false);
     const [alreadyExtensionB, setAlreadyExtensionB] = React.useState(false);
 
@@ -43,26 +46,31 @@ const Timer = (props: TimerProps) => {
     const start = () => {
         setClicked(now());
         setTimeToPlay(props.timeAfterBreak);
-    }
-    const restart = () => {
-        setClicked(0);
+        setExtensionAllowed(false);
         setAlreadyExtensionA(false);
         setAlreadyExtensionB(false);
         setAlreadyVibrateWarning(false);
         setAlreadyVibrateFault(false);
     }
+    const restart = () => {
+        setClicked(0);
+    }
     const next = () => {
         setTimeToPlay(props.timeToPlay);
         setClicked(now());
+        setExtensionAllowed(true);
         setAlreadyVibrateWarning(false);
         setAlreadyVibrateFault(false);
     }
-    const extensionA = () => {
+    const extension = () => {
         setTimeToPlay(props.timeToPlay + props.timeToAdd);
+    }
+    const extensionA = () => {
+        extension();
         setAlreadyExtensionA(true);
     }
     const extensionB = () => {
-        setTimeToPlay(props.timeToPlay + props.timeToAdd);
+        extension();
         setAlreadyExtensionB(true);
     }
 
@@ -73,12 +81,12 @@ const Timer = (props: TimerProps) => {
         remains = Math.max(0, timeToPlay - duration);
 
         if (!alreadyVibrateWarning && remains < props.alertUnderSeconds) {
-            Vibration.vibrate();
+            Vibration.vibrate(2 * ONE_SECOND_IN_MS)
             setAlreadyVibrateWarning(true);
         }
 
         if (remains === 0 && !alreadyVibrateFault) {
-            Vibration.vibrate();
+            Vibration.vibrate(4 * ONE_SECOND_IN_MS)
             setAlreadyVibrateFault(true);
         }
 
@@ -87,8 +95,8 @@ const Timer = (props: TimerProps) => {
         <View style={{backgroundColor: 'green'}}>
             <Text style={styles.counter}>{remains}</Text>
             <Button disabled={clicked > 0} title="Casse" onPress={start}/>
-            <Button disabled={alreadyExtensionA || clicked === 0} title="Extension Jaunes" onPress={extensionA}/>
-            <Button disabled={alreadyExtensionB || clicked === 0} title="Extension Rouges" onPress={extensionB}/>
+            <Button disabled={!extensionAllowed || alreadyExtensionA || clicked === 0} title="Extension Jaunes" onPress={extensionA}/>
+            <Button disabled={!extensionAllowed || alreadyExtensionB || clicked === 0} title="Extension Rouges" onPress={extensionB}/>
             <Button disabled={clicked === 0} title="Suivant" onPress={next}/>
             <Button disabled={clicked === 0} title="Nouvelle Partie" onPress={restart}/>
         </View>
