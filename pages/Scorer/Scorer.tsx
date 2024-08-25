@@ -20,7 +20,9 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
             displaySettings: true,
             settings: {
                 timeAfterBreak: 90,
-                timeToPlay: 45
+                timeToPlay: 45,
+                timeToAdd: 45,
+                alertUnderSeconds: 20
             }
         }
     }

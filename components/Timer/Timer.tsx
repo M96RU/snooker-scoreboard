@@ -4,6 +4,8 @@ import {Button, StyleSheet, Text, Vibration, View} from "react-native";
 export interface TimerProps {
     timeAfterBreak: number,
     timeToPlay: number,
+    timeToAdd: number,
+    alertUnderSeconds: number
 }
 
 const Timer = (props: TimerProps) => {
@@ -21,13 +23,13 @@ const Timer = (props: TimerProps) => {
     // last click time
     const [timeToPlay, setTimeToPlay] = React.useState(props.timeAfterBreak);
 
-    // true after break
-    const [alreadyBreak, setAlreadyBreak] = React.useState(false);
+    const [alreadyExtensionA, setAlreadyExtensionA] = React.useState(false);
+    const [alreadyExtensionB, setAlreadyExtensionB] = React.useState(false);
 
     // true after alert
-    const [alreadyAlert, setAlreadyAlert] = React.useState(false);
+    const [alreadyVibrateWarning, setAlreadyVibrateWarning] = React.useState(false);
     // true after alert
-    const [alreadyAlertEnd, setAlreadyAlertEnd] = React.useState(false);
+    const [alreadyVibrateFault, setAlreadyVibrateFault] = React.useState(false);
 
     React.useEffect(() => {
         const id = setTimeout(() => {
@@ -40,52 +42,55 @@ const Timer = (props: TimerProps) => {
 
     const start = () => {
         setClicked(now());
-        if (alreadyBreak) {
-            setAlreadyBreak(true);
-        }
+        setTimeToPlay(props.timeAfterBreak);
     }
     const restart = () => {
         setClicked(0);
-        setTimeToPlay(props.timeAfterBreak);
-        setAlreadyBreak(false);
-        setAlreadyAlert(false);
-        setAlreadyAlertEnd(false);
+        setAlreadyExtensionA(false);
+        setAlreadyExtensionB(false);
+        setAlreadyVibrateWarning(false);
+        setAlreadyVibrateFault(false);
     }
     const next = () => {
-        setAlreadyBreak(true);
         setTimeToPlay(props.timeToPlay);
         setClicked(now());
-        setAlreadyAlert(false);
-        setAlreadyAlertEnd(false);
+        setAlreadyVibrateWarning(false);
+        setAlreadyVibrateFault(false);
     }
-//    console.log("Here at " + now());
+    const extensionA = () => {
+        setTimeToPlay(props.timeToPlay + props.timeToAdd);
+        setAlreadyExtensionA(true);
+    }
+    const extensionB = () => {
+        setTimeToPlay(props.timeToPlay + props.timeToAdd);
+        setAlreadyExtensionB(true);
+    }
+
+    let remains = undefined;
 
     if (clicked > 0) {
         const duration = Math.ceil((time - clicked) / 1000);
-        const remains = Math.max(0, timeToPlay - duration);
+        remains = Math.max(0, timeToPlay - duration);
 
-        if (!alreadyAlert && remains < 20) {
+        if (!alreadyVibrateWarning && remains < props.alertUnderSeconds) {
             Vibration.vibrate();
-            setAlreadyAlert(true);
+            setAlreadyVibrateWarning(true);
         }
 
-        if (remains === 0 && !alreadyAlertEnd) {
+        if (remains === 0 && !alreadyVibrateFault) {
             Vibration.vibrate();
-            setAlreadyAlertEnd(true);
+            setAlreadyVibrateFault(true);
         }
 
-        return (
-            <View style={{backgroundColor: 'green'}}>
-                <Text style={styles.counter}>{remains}</Text>
-                <Button title="Suivant" onPress={next}/>
-                <Button title="Reset" onPress={restart}/>
-            </View>
-        );
     }
-
     return (
         <View style={{backgroundColor: 'green'}}>
-            <Button title="Casse" onPress={start}/>
+            <Text style={styles.counter}>{remains}</Text>
+            <Button disabled={clicked > 0} title="Casse" onPress={start}/>
+            <Button disabled={alreadyExtensionA || clicked === 0} title="Extension Jaunes" onPress={extensionA}/>
+            <Button disabled={alreadyExtensionB || clicked === 0} title="Extension Rouges" onPress={extensionB}/>
+            <Button disabled={clicked === 0} title="Suivant" onPress={next}/>
+            <Button disabled={clicked === 0} title="Nouvelle Partie" onPress={restart}/>
         </View>
     );
 };
