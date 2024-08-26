@@ -20,8 +20,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         }
     }
 
-    updateTimeAfterBreak(update: string, currentState: SettingsState) {
-        currentState.timer.timeAfterBreak = parseInt(update);
+    updateTimeToPlayAfterBreak(update: string, currentState: SettingsState) {
+        currentState.timer.timeToPlayAfterBreak = parseInt(update);
         this.setState(currentState);
     }
 
@@ -30,8 +30,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         this.setState(currentState);
     }
 
-    updateTimeToPlay(update: string, currentState: SettingsState) {
-        currentState.timer.timeToPlay = parseInt(update);
+    updateTimeToPlayDuringGame(update: string, currentState: SettingsState) {
+        currentState.timer.timeToPlayDuringGame = parseInt(update);
         this.setState(currentState);
     }
 
@@ -52,8 +52,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                     <Text>Temps après la casse</Text>
                     <TextInput
                         textAlign={'center'}
-                        value={this.state.timer.timeAfterBreak.toString()}
-                        onChangeText={(text: string) => this.updateTimeAfterBreak(text, this.state)}
+                        value={this.state.timer.timeToPlayAfterBreak.toString()}
+                        onChangeText={(text: string) => this.updateTimeToPlayAfterBreak(text, this.state)}
                         keyboardType={'numeric'}
                     />
                     <Text>Extension après la casse</Text>
@@ -66,8 +66,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                     <Text>Temps de jeu</Text>
                     <TextInput
                         textAlign={'center'}
-                        value={this.state.timer.timeToPlay.toString()}
-                        onChangeText={(text: string) => this.updateTimeToPlay(text, this.state)}
+                        value={this.state.timer.timeToPlayDuringGame.toString()}
+                        onChangeText={(text: string) => this.updateTimeToPlayDuringGame(text, this.state)}
                         keyboardType={'numeric'}
                     />
                     <Text>Extension en cours de partie</Text>

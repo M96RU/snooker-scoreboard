@@ -2,9 +2,9 @@ import React from 'react';
 import {Button, StyleSheet, Text, Vibration, View} from "react-native";
 
 export interface TimerProps {
-    timeAfterBreak: number,
+    timeToPlayAfterBreak: number,
     timeToAddAfterBreak: number,
-    timeToPlay: number,
+    timeToPlayDuringGame: number,
     timeToAddDuringGame: number,
     alertUnderSeconds: number
 }
@@ -24,7 +24,7 @@ const Timer = (props: TimerProps) => {
     const [clicked, setClicked] = React.useState(0);
 
     // last click time
-    const [timeToPlay, setTimeToPlay] = React.useState(props.timeAfterBreak);
+    const [timeToPlay, setTimeToPlay] = React.useState(props.timeToPlayAfterBreak);
 
     const [playingAfterBreak, setPlayingAfterBreak] = React.useState(false);
     const [alreadyExtensionA, setAlreadyExtensionA] = React.useState(false);
@@ -46,7 +46,7 @@ const Timer = (props: TimerProps) => {
 
     const start = () => {
         setClicked(now());
-        setTimeToPlay(props.timeAfterBreak);
+        setTimeToPlay(props.timeToPlayAfterBreak);
         setPlayingAfterBreak(true);
         setAlreadyExtensionA(false);
         setAlreadyExtensionB(false);
@@ -57,7 +57,7 @@ const Timer = (props: TimerProps) => {
         setClicked(0);
     }
     const next = () => {
-        setTimeToPlay(props.timeToPlay);
+        setTimeToPlay(props.timeToPlayDuringGame);
         setClicked(now());
         setPlayingAfterBreak(false);
         setAlreadyVibrateWarning(false);
@@ -65,9 +65,9 @@ const Timer = (props: TimerProps) => {
     }
     const extension = () => {
         if (playingAfterBreak) {
-            setTimeToPlay(props.timeAfterBreak + props.timeToAddAfterBreak);
+            setTimeToPlay(props.timeToPlayAfterBreak + props.timeToAddAfterBreak);
         } else {
-            setTimeToPlay(props.timeToPlay + props.timeToAddDuringGame);
+            setTimeToPlay(props.timeToPlayDuringGame + props.timeToAddDuringGame);
         }
     }
     const extensionA = () => {
