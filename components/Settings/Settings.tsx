@@ -25,13 +25,18 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         this.setState(currentState);
     }
 
+    updateTimeToAddAfterBreak(update: string, currentState: SettingsState) {
+        currentState.timer.timeToAddAfterBreak = parseInt(update);
+        this.setState(currentState);
+    }
+
     updateTimeToPlay(update: string, currentState: SettingsState) {
         currentState.timer.timeToPlay = parseInt(update);
         this.setState(currentState);
     }
 
-    updateTimeToAdd(update: string, currentState: SettingsState) {
-        currentState.timer.timeToAdd = parseInt(update);
+    updateTimeToAddDuringGame(update: string, currentState: SettingsState) {
+        currentState.timer.timeToAddDuringGame = parseInt(update);
         this.setState(currentState);
     }
 
@@ -51,6 +56,13 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                         onChangeText={(text: string) => this.updateTimeAfterBreak(text, this.state)}
                         keyboardType={'numeric'}
                     />
+                    <Text>Extension après la casse</Text>
+                    <TextInput
+                        textAlign={'center'}
+                        value={this.state.timer.timeToAddAfterBreak.toString()}
+                        onChangeText={(text: string) => this.updateTimeToAddAfterBreak(text, this.state)}
+                        keyboardType={'numeric'}
+                    />
                     <Text>Temps de jeu</Text>
                     <TextInput
                         textAlign={'center'}
@@ -58,11 +70,11 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                         onChangeText={(text: string) => this.updateTimeToPlay(text, this.state)}
                         keyboardType={'numeric'}
                     />
-                    <Text>Extension</Text>
+                    <Text>Extension en cours de partie</Text>
                     <TextInput
                         textAlign={'center'}
-                        value={this.state.timer.timeToAdd.toString()}
-                        onChangeText={(text: string) => this.updateTimeToAdd(text, this.state)}
+                        value={this.state.timer.timeToAddDuringGame.toString()}
+                        onChangeText={(text: string) => this.updateTimeToAddDuringGame(text, this.state)}
                         keyboardType={'numeric'}
                     />
                     <Text>Alerte</Text>
@@ -72,7 +84,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                         onChangeText={(text: string) => this.updateAlertUnderSeconds(text, this.state)}
                         keyboardType={'numeric'}
                     />
-                    <Button title="OK" onPress={() => this.props.onSettingsChange(this.state.timer)}/>
+                    <Button title="Valider" onPress={() => this.props.onSettingsChange(this.state.timer)}/>
                 </SafeAreaView>
             </View>
         )

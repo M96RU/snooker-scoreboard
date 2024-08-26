@@ -3,8 +3,9 @@ import {Button, StyleSheet, Text, Vibration, View} from "react-native";
 
 export interface TimerProps {
     timeAfterBreak: number,
+    timeToAddAfterBreak: number,
     timeToPlay: number,
-    timeToAdd: number,
+    timeToAddDuringGame: number,
     alertUnderSeconds: number
 }
 
@@ -25,7 +26,7 @@ const Timer = (props: TimerProps) => {
     // last click time
     const [timeToPlay, setTimeToPlay] = React.useState(props.timeAfterBreak);
 
-    const [extensionAllowed, setExtensionAllowed] = React.useState(false);
+    const [playingAfterBreak, setPlayingAfterBreak] = React.useState(false);
     const [alreadyExtensionA, setAlreadyExtensionA] = React.useState(false);
     const [alreadyExtensionB, setAlreadyExtensionB] = React.useState(false);
 
@@ -46,7 +47,7 @@ const Timer = (props: TimerProps) => {
     const start = () => {
         setClicked(now());
         setTimeToPlay(props.timeAfterBreak);
-        setExtensionAllowed(false);
+        setPlayingAfterBreak(true);
         setAlreadyExtensionA(false);
         setAlreadyExtensionB(false);
         setAlreadyVibrateWarning(false);
@@ -58,12 +59,16 @@ const Timer = (props: TimerProps) => {
     const next = () => {
         setTimeToPlay(props.timeToPlay);
         setClicked(now());
-        setExtensionAllowed(true);
+        setPlayingAfterBreak(false);
         setAlreadyVibrateWarning(false);
         setAlreadyVibrateFault(false);
     }
     const extension = () => {
-        setTimeToPlay(props.timeToPlay + props.timeToAdd);
+        if (playingAfterBreak) {
+            setTimeToPlay(props.timeAfterBreak + props.timeToAddAfterBreak);
+        } else {
+            setTimeToPlay(props.timeToPlay + props.timeToAddDuringGame);
+        }
     }
     const extensionA = () => {
         extension();
@@ -95,8 +100,8 @@ const Timer = (props: TimerProps) => {
         <View style={{backgroundColor: 'green'}}>
             <Text style={styles.counter}>{remains}</Text>
             <Button disabled={clicked > 0} title="Casse" onPress={start}/>
-            <Button disabled={!extensionAllowed || alreadyExtensionA || clicked === 0} title="Extension Jaunes" onPress={extensionA}/>
-            <Button disabled={!extensionAllowed || alreadyExtensionB || clicked === 0} title="Extension Rouges" onPress={extensionB}/>
+            <Button disabled={alreadyExtensionA || clicked === 0} title="Extension Jaunes" onPress={extensionA}/>
+            <Button disabled={alreadyExtensionB || clicked === 0} title="Extension Rouges" onPress={extensionB}/>
             <Button disabled={clicked === 0} title="Suivant" onPress={next}/>
             <Button disabled={clicked === 0} title="Nouvelle Partie" onPress={restart}/>
         </View>
