@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,} from 'react-native';
+import {Button, View,} from 'react-native';
 import Timer, {TimerProps} from "../../components/Timer";
 import Settings from "../../components/Settings";
 
@@ -8,7 +8,7 @@ interface ScorerProps {
 
 interface ScorerState {
     displaySettings: boolean,
-    settings: TimerProps
+    timerProps: TimerProps
 }
 
 class Scorer extends React.Component<ScorerProps, ScorerState> {
@@ -18,7 +18,7 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
 
         this.state = {
             displaySettings: true,
-            settings: {
+            timerProps: {
                 timeToPlayAfterBreak: 90,
                 timeToAddAfterBreak: 45,
                 timeToPlayDuringGame: 45,
@@ -31,23 +31,28 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
     onSettingsChange = (settings: TimerProps) => {
         this.setState({
             displaySettings: false,
-            settings: settings
-        })
+            timerProps: settings
+        });
+    }
+
+    displaySettings = (scorerState: ScorerState) => {
+        scorerState.displaySettings = true;
+        this.setState(scorerState);
     }
 
     render() {
         if (this.state.displaySettings) {
             return (
                 <View>
-                    <Settings onSettingsChange={this.onSettingsChange} timer={this.state.settings}></Settings>
+                    <Settings onSettingsChange={this.onSettingsChange} timer={this.state.timerProps}></Settings>
                 </View>
             );
         }
 
-        const {settings} = this.state;
         return (
             <View>
-                <Timer {...settings}/>
+                <Button title="Configuration" onPress={() => this.displaySettings(this.state)}/>
+                <Timer {...this.state.timerProps}/>
             </View>
         );
     }
