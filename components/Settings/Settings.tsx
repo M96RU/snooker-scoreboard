@@ -48,28 +48,43 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     }
 
     updateTimeToPlayAfterBreak(update: string, currentState: SettingsState) {
-        currentState.timer.timeToPlayAfterBreak = parseInt(update);
-        this.setState(currentState);
+        const updatedValue = parseInt(update);
+        if (!isNaN(updatedValue)) {
+            currentState.timer.timeToPlayAfterBreak = updatedValue;
+            this.setState(currentState);
+        }
     }
 
     updateTimeToAddAfterBreak(update: string, currentState: SettingsState) {
-        currentState.timer.timeToAddAfterBreak = parseInt(update);
-        this.setState(currentState);
+        const updatedValue = parseInt(update);
+        if (!isNaN(updatedValue)) {
+            currentState.timer.timeToAddAfterBreak = updatedValue;
+            this.setState(currentState);
+        }
     }
 
     updateTimeToPlayDuringGame(update: string, currentState: SettingsState) {
-        currentState.timer.timeToPlayDuringGame = parseInt(update);
-        this.setState(currentState);
+        const updatedValue = parseInt(update);
+        if (!isNaN(updatedValue)) {
+            currentState.timer.timeToPlayDuringGame = updatedValue;
+            this.setState(currentState);
+        }
     }
 
     updateTimeToAddDuringGame(update: string, currentState: SettingsState) {
-        currentState.timer.timeToAddDuringGame = parseInt(update);
-        this.setState(currentState);
+        const updatedValue = parseInt(update);
+        if (!isNaN(updatedValue)) {
+            currentState.timer.timeToAddDuringGame = updatedValue;
+            this.setState(currentState);
+        }
     }
 
     updateAlertUnderSeconds(update: string, currentState: SettingsState) {
-        currentState.timer.alertUnderSeconds = parseInt(update);
-        this.setState(currentState);
+        const updatedValue = parseInt(update);
+        if (!isNaN(updatedValue)) {
+            currentState.timer.alertUnderSeconds = updatedValue;
+            this.setState(currentState);
+        }
     }
 
     render() {
