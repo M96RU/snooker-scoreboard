@@ -19,6 +19,7 @@ const Timer = (props: TimerProps) => {
 
     // current time - updated asynchronously
     const [time, setTime] = React.useState(now());
+    const [paused, setPaused] = React.useState(0);
 
     // last click time
     const [clicked, setClicked] = React.useState(0);
@@ -44,8 +45,21 @@ const Timer = (props: TimerProps) => {
         };
     });
 
+    const pause = () => {
+        if (paused > 0) {
+            const newClicked = clicked + now() - paused;
+            // end of pause
+            setPaused(0);
+            setClicked(newClicked);
+        } else {
+            // pause begins
+            setPaused(now());
+        }
+    }
+
     const start = () => {
         setClicked(now());
+        setPaused(0);
         setTimeToPlay(props.timeToPlayAfterBreak);
         setPlayingAfterBreak(true);
         setAlreadyExtensionA(false);
@@ -88,10 +102,16 @@ const Timer = (props: TimerProps) => {
     }
 
     let remains = undefined;
+    let pausedSince = 0;
     let counterStyle = styles.counter;
 
     if (clicked > 0) {
-        const duration = Math.ceil((time - clicked) / 1000);
+
+        if (paused) {
+            pausedSince = now() - paused;
+        }
+
+        const duration = Math.ceil((time - clicked - pausedSince) / 1000);
         remains = Math.max(0, timeToPlay - duration);
 
         if (remains <= props.alertUnderSeconds) {
@@ -112,14 +132,14 @@ const Timer = (props: TimerProps) => {
     }
 
     const breakAllowed = clicked === 0;
-    const extensionAAllowed = !alreadyExtensionA && clicked > 0;
-    const extensionBAllowed = !alreadyExtensionB && clicked > 0;
+    const extensionAAllowed = !alreadyExtensionA && clicked > 0 && paused === 0;
+    const extensionBAllowed = !alreadyExtensionB && clicked > 0 && paused === 0;
 
     return (
         <View style={styles.container}>
-            <View style={counterStyle}>
+            <Pressable style={[counterStyle, styleAllowed(paused === 0)]} onPress={pause}>
                 <Text style={styles.counterText}>{remains}</Text>
-            </View>
+            </Pressable>
             <View style={styles.buttons}>
                 <Pressable style={[styles.button, styleAllowed(breakAllowed)]} disabled={!breakAllowed} onPress={start}>
                     <Text style={styles.buttonText}>CASSE</Text>
