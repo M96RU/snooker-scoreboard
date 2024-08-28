@@ -79,6 +79,14 @@ const Timer = (props: TimerProps) => {
         setAlreadyExtensionB(true);
     }
 
+    const styleAllowed = (allowed: boolean) => {
+        if (!allowed) {
+            return {
+                backgroundColor: 'grey'
+            };
+        }
+    }
+
     let remains = undefined;
     let counterStyle = styles.counter;
 
@@ -91,40 +99,45 @@ const Timer = (props: TimerProps) => {
             counterStyle = styles.counterWarn;
 
             if (!alreadyVibrateWarning) {
-                Vibration.vibrate(2 * ONE_SECOND_IN_MS)
+                Vibration.vibrate(1.5 * ONE_SECOND_IN_MS)
                 setAlreadyVibrateWarning(true);
             }
         }
 
         if (remains === 0 && !alreadyVibrateFault) {
-            Vibration.vibrate(4 * ONE_SECOND_IN_MS)
+            Vibration.vibrate(3 * ONE_SECOND_IN_MS)
             setAlreadyVibrateFault(true);
         }
 
     }
+
+    const breakAllowed = clicked === 0;
+    const extensionAAllowed = !alreadyExtensionA && clicked > 0;
+    const extensionBAllowed = !alreadyExtensionB && clicked > 0;
+
     return (
         <View style={styles.container}>
             <View style={counterStyle}>
                 <Text style={styles.counterText}>{remains}</Text>
             </View>
             <View style={styles.buttons}>
-                <Pressable style={styles.button} disabled={clicked > 0} onPress={start}>
+                <Pressable style={[styles.button, styleAllowed(breakAllowed)]} disabled={!breakAllowed} onPress={start}>
                     <Text style={styles.buttonText}>CASSE</Text>
                 </Pressable>
-                <Pressable style={styles.button} disabled={clicked === 0} onPress={next}>
+                <Pressable style={[styles.button, styleAllowed(!breakAllowed)]} disabled={breakAllowed} onPress={next}>
                     <Text style={styles.buttonText}>SUIVANT</Text>
                 </Pressable>
             </View>
             <View style={styles.buttons}>
-                <Pressable style={[styles.button, styles.buttonYellow]} disabled={alreadyExtensionA || clicked === 0} onPress={extensionA}>
+                <Pressable style={[styles.button, styles.buttonYellow, styleAllowed(extensionAAllowed)]} disabled={!extensionAAllowed} onPress={extensionA}>
                     <Text style={[styles.buttonText, styles.buttonTextBlack]}>Extension Jaunes</Text>
                 </Pressable>
-                <Pressable style={[styles.button, styles.buttonRed]} disabled={alreadyExtensionB || clicked === 0} onPress={extensionB}>
+                <Pressable style={[styles.button, styles.buttonRed, styleAllowed(extensionBAllowed)]} disabled={!extensionBAllowed} onPress={extensionB}>
                     <Text style={styles.buttonText}>Extension Rouges</Text>
                 </Pressable>
             </View>
             <View style={styles.buttons}>
-                <Pressable style={styles.button} disabled={clicked === 0} onPress={restart}>
+                <Pressable style={[styles.button, styleAllowed(!breakAllowed)]} disabled={breakAllowed} onPress={restart}>
                     <Text style={styles.buttonText}>Nouvelle Partie</Text>
                 </Pressable>
             </View>
