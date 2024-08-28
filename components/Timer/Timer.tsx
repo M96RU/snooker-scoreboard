@@ -132,6 +132,7 @@ const Timer = (props: TimerProps) => {
     }
 
     const breakAllowed = clicked === 0;
+    const nextAllowed = !breakAllowed && paused === 0;
     const extensionAAllowed = !alreadyExtensionA && clicked > 0 && paused === 0;
     const extensionBAllowed = !alreadyExtensionB && clicked > 0 && paused === 0;
 
@@ -144,7 +145,7 @@ const Timer = (props: TimerProps) => {
                 <Pressable style={[styles.button, styleAllowed(breakAllowed)]} disabled={!breakAllowed} onPress={start}>
                     <Text style={styles.buttonText}>CASSE</Text>
                 </Pressable>
-                <Pressable style={[styles.button, styleAllowed(!breakAllowed)]} disabled={breakAllowed} onPress={next}>
+                <Pressable style={[styles.button, styleAllowed(nextAllowed)]} disabled={!nextAllowed} onPress={next}>
                     <Text style={styles.buttonText}>SUIVANT</Text>
                 </Pressable>
             </View>
@@ -157,7 +158,7 @@ const Timer = (props: TimerProps) => {
                 </Pressable>
             </View>
             <View style={styles.buttons}>
-                <Pressable style={[styles.button, styleAllowed(!breakAllowed)]} disabled={breakAllowed} onPress={restart}>
+                <Pressable style={[styles.button, styleAllowed(nextAllowed)]} disabled={!nextAllowed} onPress={restart}>
                     <Text style={styles.buttonText}>Nouvelle Partie</Text>
                 </Pressable>
             </View>
