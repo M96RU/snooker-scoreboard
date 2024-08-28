@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, StyleSheet, Text, Vibration, View} from "react-native";
+import {Pressable, StyleSheet, Text, Vibration, View} from "react-native";
 
 export interface TimerProps {
     timeToPlayAfterBreak: number,
@@ -19,6 +19,7 @@ const Timer = (props: TimerProps) => {
 
     // current time - updated asynchronously
     const [time, setTime] = React.useState(now());
+    const [paused, setPaused] = React.useState(0);
 
     // last click time
     const [clicked, setClicked] = React.useState(0);
@@ -44,8 +45,21 @@ const Timer = (props: TimerProps) => {
         };
     });
 
+    const pause = () => {
+        if (paused > 0) {
+            const newClicked = clicked + now() - paused;
+            // end of pause
+            setPaused(0);
+            setClicked(newClicked);
+        } else {
+            // pause begins
+            setPaused(now());
+        }
+    }
+
     const start = () => {
         setClicked(now());
+        setPaused(0);
         setTimeToPlay(props.timeToPlayAfterBreak);
         setPlayingAfterBreak(true);
         setAlreadyExtensionA(false);
@@ -79,39 +93,129 @@ const Timer = (props: TimerProps) => {
         setAlreadyExtensionB(true);
     }
 
+    const styleAllowed = (allowed: boolean) => {
+        if (!allowed) {
+            return {
+                backgroundColor: 'grey'
+            };
+        }
+    }
+
     let remains = undefined;
+    let pausedSince = 0;
+    let counterStyle = styles.counter;
 
     if (clicked > 0) {
-        const duration = Math.ceil((time - clicked) / 1000);
+
+        if (paused) {
+            pausedSince = now() - paused;
+        }
+
+        const duration = Math.ceil((time - clicked - pausedSince) / 1000);
         remains = Math.max(0, timeToPlay - duration);
 
-        if (!alreadyVibrateWarning && remains < props.alertUnderSeconds) {
-            Vibration.vibrate(2 * ONE_SECOND_IN_MS)
-            setAlreadyVibrateWarning(true);
+        if (remains <= props.alertUnderSeconds) {
+
+            counterStyle = styles.counterWarn;
+
+            if (!alreadyVibrateWarning) {
+                Vibration.vibrate(1.5 * ONE_SECOND_IN_MS)
+                setAlreadyVibrateWarning(true);
+            }
         }
 
         if (remains === 0 && !alreadyVibrateFault) {
-            Vibration.vibrate(4 * ONE_SECOND_IN_MS)
+            Vibration.vibrate(3 * ONE_SECOND_IN_MS)
             setAlreadyVibrateFault(true);
         }
 
     }
+
+    const breakAllowed = clicked === 0;
+    const extensionAAllowed = !alreadyExtensionA && clicked > 0 && paused === 0;
+    const extensionBAllowed = !alreadyExtensionB && clicked > 0 && paused === 0;
+
     return (
-        <View style={{backgroundColor: 'green'}}>
-            <Text style={styles.counter}>{remains}</Text>
-            <Button disabled={clicked > 0} title="Casse" onPress={start}/>
-            <Button disabled={alreadyExtensionA || clicked === 0} title="Extension Jaunes" onPress={extensionA}/>
-            <Button disabled={alreadyExtensionB || clicked === 0} title="Extension Rouges" onPress={extensionB}/>
-            <Button disabled={clicked === 0} title="Suivant" onPress={next}/>
-            <Button disabled={clicked === 0} title="Nouvelle Partie" onPress={restart}/>
+        <View style={styles.container}>
+            <Pressable style={[counterStyle, styleAllowed(paused === 0)]} onPress={pause}>
+                <Text style={styles.counterText}>{remains}</Text>
+            </Pressable>
+            <View style={styles.buttons}>
+                <Pressable style={[styles.button, styleAllowed(breakAllowed)]} disabled={!breakAllowed} onPress={start}>
+                    <Text style={styles.buttonText}>CASSE</Text>
+                </Pressable>
+                <Pressable style={[styles.button, styleAllowed(!breakAllowed)]} disabled={breakAllowed} onPress={next}>
+                    <Text style={styles.buttonText}>SUIVANT</Text>
+                </Pressable>
+            </View>
+            <View style={styles.buttons}>
+                <Pressable style={[styles.button, styles.buttonYellow, styleAllowed(extensionAAllowed)]} disabled={!extensionAAllowed} onPress={extensionA}>
+                    <Text style={[styles.buttonText, styles.buttonTextBlack]}>Extension Jaunes</Text>
+                </Pressable>
+                <Pressable style={[styles.button, styles.buttonRed, styleAllowed(extensionBAllowed)]} disabled={!extensionBAllowed} onPress={extensionB}>
+                    <Text style={styles.buttonText}>Extension Rouges</Text>
+                </Pressable>
+            </View>
+            <View style={styles.buttons}>
+                <Pressable style={[styles.button, styleAllowed(!breakAllowed)]} disabled={breakAllowed} onPress={restart}>
+                    <Text style={styles.buttonText}>Nouvelle Partie</Text>
+                </Pressable>
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column'
+    },
+    buttons: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+    button: {
+        flex: 1,
+        margin: 10,
+        borderRadius: 5,
+        backgroundColor: 'blue',
+        justifyContent: 'center',
+    },
+    buttonYellow: {
+        backgroundColor: 'yellow'
+    },
+    buttonRed: {
+        backgroundColor: 'red'
+    },
+    buttonText: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        verticalAlign: 'middle',
+        color: 'white',
+    },
+    buttonTextBlack: {
+        color: 'black'
+    },
     counter: {
-        fontSize: 100,
-        alignSelf: 'center'
+        flex: 3,
+        margin: 30,
+        justifyContent: 'center',
+        backgroundColor: 'blue',
+        borderRadius: 180
+    },
+    counterWarn: {
+        flex: 3,
+        margin: 30,
+        justifyContent: 'center',
+        backgroundColor: 'red',
+        borderRadius: 180
+    },
+    counterText: {
+        fontSize: 150,
+        fontWeight: 'bold',
+        color: 'white',
+        textAlign: 'center',
+        justifyContent: 'center',
     }
 });
 

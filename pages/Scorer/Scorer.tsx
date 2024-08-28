@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, View,} from 'react-native';
+import {Button, Pressable, StyleSheet, Text, View,} from 'react-native';
 import Timer, {TimerProps} from "../../components/Timer";
 import Settings from "../../components/Settings";
 
@@ -43,19 +43,39 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
     render() {
         if (this.state.displaySettings) {
             return (
-                <View>
+                <View style={styles.container}>
                     <Settings onSettingsChange={this.onSettingsChange} timer={this.state.timerProps}></Settings>
                 </View>
             );
         }
 
         return (
-            <View>
-                <Button title="Configuration" onPress={() => this.displaySettings(this.state)}/>
+            <View style={styles.container}>
+                <Pressable style={styles.button} onPress={() => this.displaySettings(this.state)}>
+                    <Text style={styles.buttonText}>CONFIGURATION</Text>
+                </Pressable>
                 <Timer {...this.state.timerProps}/>
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+    },
+    button: {
+        // flex: 1,
+        margin: 2,
+        padding: 4,
+        borderRadius: 5,
+        backgroundColor: 'blue'
+    },
+    buttonText: {
+        textAlign: 'center',
+        color: 'white'
+    },
+});
 
 export default Scorer;
