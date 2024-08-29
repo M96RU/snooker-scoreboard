@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Pressable, StyleSheet, Text, View,} from 'react-native';
+import {Image, Modal, Pressable, StyleSheet, View,} from 'react-native';
 import Timer, {TimerProps} from "../../components/Timer";
 import Settings from "../../components/Settings";
 
@@ -35,24 +35,26 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
         });
     }
 
+    onSettingsClose = (scorerState: ScorerState) => {
+        scorerState.displaySettings = false;
+        this.setState(scorerState);
+    }
+
     displaySettings = (scorerState: ScorerState) => {
         scorerState.displaySettings = true;
         this.setState(scorerState);
     }
 
     render() {
-        if (this.state.displaySettings) {
-            return (
-                <View style={styles.container}>
-                    <Settings onSettingsChange={this.onSettingsChange} timer={this.state.timerProps}></Settings>
-                </View>
-            );
-        }
-
         return (
             <View style={styles.container}>
-                <Pressable style={styles.button} onPress={() => this.displaySettings(this.state)}>
-                    <Text style={styles.buttonText}>CONFIGURATION</Text>
+                <Modal visible={this.state.displaySettings}>
+                    <View style={styles.container}>
+                        <Settings onClose={() => this.onSettingsClose(this.state)} onChange={this.onSettingsChange} timer={this.state.timerProps}></Settings>
+                    </View>
+                </Modal>
+                <Pressable onPress={() => this.displaySettings(this.state)}>
+                    <Image source={require('../../images/icons/settings-32.png')}></Image>
                 </Pressable>
                 <Timer {...this.state.timerProps}/>
             </View>
@@ -64,18 +66,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-    },
-    button: {
-        // flex: 1,
-        margin: 2,
-        padding: 4,
-        borderRadius: 5,
-        backgroundColor: 'blue'
-    },
-    buttonText: {
-        textAlign: 'center',
-        color: 'white'
-    },
+    }
 });
 
 export default Scorer;
