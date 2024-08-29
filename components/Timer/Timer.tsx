@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, Vibration, View} from "react-native";
+import {Dimensions, Pressable, StyleSheet, Text, Vibration, View} from "react-native";
 
 export interface TimerProps {
     timeToPlayAfterBreak: number,
@@ -44,6 +44,7 @@ const Timer = (props: TimerProps) => {
             clearTimeout(id);
         };
     });
+
 
     const pause = () => {
         if (paused > 0) {
@@ -93,6 +94,14 @@ const Timer = (props: TimerProps) => {
         setAlreadyExtensionB(true);
     }
 
+    const styleOrientation = () => {
+        const {height, width} = Dimensions.get('window');
+        const flexDirection = height > width ? 'column' : 'row';
+        return {
+            flex:1,
+            flexDirection: flexDirection
+        };
+    }
     const styleAllowed = (allowed: boolean) => {
         if (!allowed) {
             return {
@@ -137,30 +146,34 @@ const Timer = (props: TimerProps) => {
     const extensionBAllowed = !alreadyExtensionB && clicked > 0 && paused === 0;
 
     return (
-        <View style={styles.container}>
-            <Pressable style={[counterStyle, styleAllowed(paused === 0)]} onPress={pause}>
-                <Text style={styles.counterText}>{remains}</Text>
-            </Pressable>
-            <View style={styles.buttons}>
-                <Pressable style={[styles.button, styleAllowed(breakAllowed)]} disabled={!breakAllowed} onPress={start}>
-                    <Text style={styles.buttonText}>CASSE</Text>
-                </Pressable>
-                <Pressable style={[styles.button, styleAllowed(nextAllowed)]} disabled={!nextAllowed} onPress={next}>
-                    <Text style={styles.buttonText}>SUIVANT</Text>
+        <View style={[styles.container, styleOrientation()]}>
+            <View style={styles.subContainer}>
+                <Pressable style={[counterStyle, styleAllowed(paused === 0)]} onPress={pause}>
+                    <Text style={styles.counterText}>{remains}</Text>
                 </Pressable>
             </View>
-            <View style={styles.buttons}>
-                <Pressable style={[styles.button, styles.buttonYellow, styleAllowed(extensionAAllowed)]} disabled={!extensionAAllowed} onPress={extensionA}>
-                    <Text style={[styles.buttonText, styles.buttonTextBlack]}>Extension Jaunes</Text>
-                </Pressable>
-                <Pressable style={[styles.button, styles.buttonRed, styleAllowed(extensionBAllowed)]} disabled={!extensionBAllowed} onPress={extensionB}>
-                    <Text style={styles.buttonText}>Extension Rouges</Text>
-                </Pressable>
-            </View>
-            <View style={styles.buttons}>
-                <Pressable style={[styles.button, styleAllowed(nextAllowed)]} disabled={!nextAllowed} onPress={restart}>
-                    <Text style={styles.buttonText}>Nouvelle Partie</Text>
-                </Pressable>
+            <View style={styles.subContainer}>
+                <View style={styles.buttons}>
+                    <Pressable style={[styles.button, styleAllowed(breakAllowed)]} disabled={!breakAllowed} onPress={start}>
+                        <Text style={styles.buttonText}>CASSE</Text>
+                    </Pressable>
+                    <Pressable style={[styles.button, styleAllowed(nextAllowed)]} disabled={!nextAllowed} onPress={next}>
+                        <Text style={styles.buttonText}>SUIVANT</Text>
+                    </Pressable>
+                </View>
+                <View style={styles.buttons}>
+                    <Pressable style={[styles.button, styles.buttonYellow, styleAllowed(extensionAAllowed)]} disabled={!extensionAAllowed} onPress={extensionA}>
+                        <Text style={[styles.buttonText, styles.buttonTextBlack]}>Extension Jaunes</Text>
+                    </Pressable>
+                    <Pressable style={[styles.button, styles.buttonRed, styleAllowed(extensionBAllowed)]} disabled={!extensionBAllowed} onPress={extensionB}>
+                        <Text style={styles.buttonText}>Extension Rouges</Text>
+                    </Pressable>
+                </View>
+                <View style={styles.buttons}>
+                    <Pressable style={[styles.button, styleAllowed(nextAllowed)]} disabled={!nextAllowed} onPress={restart}>
+                        <Text style={styles.buttonText}>Nouvelle Partie</Text>
+                    </Pressable>
+                </View>
             </View>
         </View>
     );
@@ -168,6 +181,9 @@ const Timer = (props: TimerProps) => {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1
+    },
+    subContainer: {
         flex: 1,
         flexDirection: 'column'
     },
