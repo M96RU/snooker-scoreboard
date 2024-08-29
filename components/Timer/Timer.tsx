@@ -11,8 +11,6 @@ export interface TimerProps {
 
 const Timer = (props: TimerProps) => {
 
-    const ONE_SECOND_IN_MS = 1000;
-
     const now = () => {
         return new Date().getTime();
     }
@@ -60,6 +58,7 @@ const Timer = (props: TimerProps) => {
     }
 
     const start = () => {
+        vibrate(0.3);
         setClicked(now());
         setPaused(0);
         setTimeToPlay(props.timeToPlayAfterBreak);
@@ -70,9 +69,11 @@ const Timer = (props: TimerProps) => {
         setAlreadyVibrateFault(false);
     }
     const restart = () => {
+        vibrate(0.3);
         setClicked(0);
     }
     const next = () => {
+        vibrate(0.3);
         setTimeToPlay(props.timeToPlayDuringGame);
         setClicked(now());
         setPlayingAfterBreak(false);
@@ -89,10 +90,12 @@ const Timer = (props: TimerProps) => {
         }
     }
     const extensionA = () => {
+        vibrate(0.3);
         extension();
         setAlreadyExtensionA(true);
     }
     const extensionB = () => {
+        vibrate(0.3);
         extension();
         setAlreadyExtensionB(true);
     }
@@ -113,6 +116,10 @@ const Timer = (props: TimerProps) => {
         }
     }
 
+    const vibrate = (seconds: number) => {
+        Vibration.vibrate(seconds * 1000);
+    }
+
     let remains = undefined;
     let pausedSince = 0;
     let counterStyle = styles.counter;
@@ -131,13 +138,13 @@ const Timer = (props: TimerProps) => {
             counterStyle = styles.counterWarn;
 
             if (!alreadyVibrateWarning) {
-                Vibration.vibrate(1.5 * ONE_SECOND_IN_MS)
+                vibrate(1.5);
                 setAlreadyVibrateWarning(true);
             }
         }
 
         if (remains === 0 && !alreadyVibrateFault) {
-            Vibration.vibrate(3 * ONE_SECOND_IN_MS)
+            vibrate(3);
             setAlreadyVibrateFault(true);
         }
 
