@@ -28,6 +28,7 @@ const Timer = (props: TimerProps) => {
     const [timeToPlay, setTimeToPlay] = React.useState(props.timeToPlayAfterBreak);
 
     const [playingAfterBreak, setPlayingAfterBreak] = React.useState(false);
+    const [extensionInProgress, setExtensionInProgress] = React.useState(false);
     const [alreadyExtensionA, setAlreadyExtensionA] = React.useState(false);
     const [alreadyExtensionB, setAlreadyExtensionB] = React.useState(false);
 
@@ -77,8 +78,10 @@ const Timer = (props: TimerProps) => {
         setPlayingAfterBreak(false);
         setAlreadyVibrateWarning(false);
         setAlreadyVibrateFault(false);
+        setExtensionInProgress(false);
     }
     const extension = () => {
+        setExtensionInProgress(true);
         if (playingAfterBreak) {
             setTimeToPlay(props.timeToPlayAfterBreak + props.timeToAddAfterBreak);
         } else {
@@ -98,7 +101,7 @@ const Timer = (props: TimerProps) => {
         const {height, width} = Dimensions.get('window');
         const flexDirection = height > width ? 'column' : 'row';
         return {
-            flex:1,
+            flex: 1,
             flexDirection: flexDirection
         };
     }
@@ -142,13 +145,13 @@ const Timer = (props: TimerProps) => {
 
     const breakAllowed = clicked === 0;
     const nextAllowed = !breakAllowed && paused === 0;
-    const extensionAAllowed = !alreadyExtensionA && clicked > 0 && paused === 0;
-    const extensionBAllowed = !alreadyExtensionB && clicked > 0 && paused === 0;
+    const extensionAAllowed = !extensionInProgress && !alreadyExtensionA && clicked > 0 && paused === 0;
+    const extensionBAllowed = !extensionInProgress && !alreadyExtensionB && clicked > 0 && paused === 0;
 
     return (
         <View style={[styles.container, styleOrientation()]}>
             <View style={styles.subContainer}>
-                <Pressable style={[counterStyle, styleAllowed(paused === 0)]} onPress={pause}>
+                <Pressable disabled={breakAllowed} style={[counterStyle, styleAllowed(paused === 0)]} onPress={pause}>
                     <Text style={styles.counterText}>{remains}</Text>
                 </Pressable>
             </View>
