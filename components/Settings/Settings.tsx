@@ -4,7 +4,8 @@ import {TimerProps} from "../Timer";
 
 interface SettingsProps {
     timer: TimerProps,
-    onSettingsChange: (param: TimerProps) => void;
+    onChange: (param: TimerProps) => void;
+    onClose: () => void;
 }
 
 interface SettingsState {
@@ -104,7 +105,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                 </View>
 
                 <View style={styles.item}>
-                    <Text style={styles.itemLabel}>Temps après la casse</Text>
+                    <Text style={styles.itemLabel}>Casse</Text>
                     <TextInput
                         style={styles.itemInput}
                         editable={this.state.editable}
@@ -114,7 +115,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                     />
                 </View>
                 <View style={styles.item}>
-                    <Text style={styles.itemLabel}>Extension après la casse</Text>
+                    <Text style={styles.itemLabel}>Extension casse</Text>
                     <TextInput
                         style={styles.itemInput}
                         editable={this.state.editable}
@@ -124,7 +125,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                     />
                 </View>
                 <View style={styles.item}>
-                    <Text style={styles.itemLabel}>Temps de jeu</Text>
+                    <Text style={styles.itemLabel}>Visite</Text>
                     <TextInput
                         style={styles.itemInput}
                         editable={this.state.editable}
@@ -134,7 +135,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                     />
                 </View>
                 <View style={styles.item}>
-                    <Text style={styles.itemLabel}>Extension en cours de partie</Text>
+                    <Text style={styles.itemLabel}>Extension visite</Text>
                     <TextInput
                         style={styles.itemInput}
                         editable={this.state.editable}
@@ -155,7 +156,10 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                 </View>
 
                 <View style={styles.buttons}>
-                    <Pressable style={styles.button} onPress={() => this.props.onSettingsChange(this.state.timer)}>
+                    <Pressable style={styles.button} onPress={() => this.props.onClose()}>
+                        <Text style={styles.buttonText}>FERMER</Text>
+                    </Pressable>
+                    <Pressable style={styles.button} onPress={() => this.props.onChange(this.state.timer)}>
                         <Text style={styles.buttonText}>VALIDER</Text>
                     </Pressable>
                 </View>
