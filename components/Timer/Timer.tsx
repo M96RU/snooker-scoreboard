@@ -152,8 +152,9 @@ const Timer = (props: TimerProps) => {
 
     const breakAllowed = clicked === 0;
     const nextAllowed = !breakAllowed && paused === 0;
-    const extensionAAllowed = !extensionInProgress && !alreadyExtensionA && clicked > 0 && paused === 0;
-    const extensionBAllowed = !extensionInProgress && !alreadyExtensionB && clicked > 0 && paused === 0;
+    const extensionAllowed = !extensionInProgress && clicked > 0 && paused === 0 && remains != undefined && remains > 0;
+    const extensionAAllowed = extensionAllowed && !alreadyExtensionA;
+    const extensionBAllowed = extensionAllowed && !alreadyExtensionB;
 
     return (
         <View style={[styles.container, styleOrientation()]}>
