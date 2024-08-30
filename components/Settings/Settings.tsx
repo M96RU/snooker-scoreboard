@@ -102,17 +102,16 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         return (
             <View style={styles.container}>
 
-                <View><Text>Match</Text></View>
                 <View style={styles.item}>
                     <Text style={styles.itemLabel}>Joueur 1</Text>
+                    <Text style={styles.itemLabel}>Joueur 2</Text>
+                </View>
+                <View style={styles.item}>
                     <TextInput
                         style={styles.itemInput}
                         value={this.state.timer.playerA}
                         onChangeText={(text: string) => this.updatePlayerA(text, this.state)}
                     />
-                </View>
-                <View style={styles.item}>
-                    <Text style={styles.itemLabel}>Joueur 2</Text>
                     <TextInput
                         style={styles.itemInput}
                         value={this.state.timer.playerB}
@@ -228,7 +227,10 @@ const styles = StyleSheet.create({
     itemInput: {
         flex: 1,
         padding: 2,
-        textAlign: 'center'
+        textAlign: 'center',
+        borderWidth: 1,
+        margin: 2,
+        borderRadius: 5
     },
 });
 
