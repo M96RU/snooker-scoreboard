@@ -17,7 +17,7 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
         super(props);
 
         this.state = {
-            displaySettings: true,
+            displaySettings: false,
             timerProps: {
                 playerA: 'J1',
                 playerB: 'J2',
