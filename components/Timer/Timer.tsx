@@ -2,6 +2,8 @@ import React from 'react';
 import {Dimensions, Pressable, StyleSheet, Text, Vibration, View} from "react-native";
 
 export interface TimerProps {
+    playerA: string,
+    playerB: string,
     timeToPlayAfterBreak: number,
     timeToAddAfterBreak: number,
     timeToPlayDuringGame: number,
@@ -43,7 +45,6 @@ const Timer = (props: TimerProps) => {
             clearTimeout(id);
         };
     });
-
 
     const pause = () => {
         if (paused > 0) {
@@ -174,10 +175,10 @@ const Timer = (props: TimerProps) => {
                 </View>
                 <View style={styles.buttons}>
                     <Pressable style={[styles.button, styles.buttonYellow, styleAllowed(extensionAAllowed)]} disabled={!extensionAAllowed} onPress={extensionA}>
-                        <Text style={[styles.buttonText, styles.buttonTextBlack]}>Extension Jaunes</Text>
+                        <Text style={[styles.buttonText, styles.buttonTextBlack]}>Extension {props.playerA}</Text>
                     </Pressable>
                     <Pressable style={[styles.button, styles.buttonRed, styleAllowed(extensionBAllowed)]} disabled={!extensionBAllowed} onPress={extensionB}>
-                        <Text style={styles.buttonText}>Extension Rouges</Text>
+                        <Text style={styles.buttonText}>Extension {props.playerB}</Text>
                     </Pressable>
                 </View>
                 <View style={styles.buttons}>

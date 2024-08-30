@@ -48,6 +48,16 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         this.setState(currentState);
     }
 
+    updatePlayerA(update: string, currentState: SettingsState) {
+        currentState.timer.playerA = update;
+        this.setState(currentState);
+    }
+
+    updatePlayerB(update: string, currentState: SettingsState) {
+        currentState.timer.playerB = update;
+        this.setState(currentState);
+    }
+
     updateTimeToPlayAfterBreak(update: string, currentState: SettingsState) {
         const updatedValue = parseInt(update);
         if (!isNaN(updatedValue)) {
@@ -91,6 +101,24 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     render() {
         return (
             <View style={styles.container}>
+
+                <View><Text>Match</Text></View>
+                <View style={styles.item}>
+                    <Text style={styles.itemLabel}>Joueur 1</Text>
+                    <TextInput
+                        style={styles.itemInput}
+                        value={this.state.timer.playerA}
+                        onChangeText={(text: string) => this.updatePlayerA(text, this.state)}
+                    />
+                </View>
+                <View style={styles.item}>
+                    <Text style={styles.itemLabel}>Joueur 2</Text>
+                    <TextInput
+                        style={styles.itemInput}
+                        value={this.state.timer.playerB}
+                        onChangeText={(text: string) => this.updatePlayerB(text, this.state)}
+                    />
+                </View>
 
                 <View style={styles.buttons}>
                     <Pressable style={styles.button} disabled={this.state.editable} onPress={() => this.edit(this.state)}>
@@ -166,6 +194,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
             </View>
         )
     }
+
 }
 
 const styles = StyleSheet.create({
