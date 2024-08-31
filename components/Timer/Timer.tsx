@@ -174,10 +174,10 @@ const Timer = (props: TimerProps) => {
                     </Pressable>
                 </View>
                 <View style={styles.buttons}>
-                    <Pressable style={[styles.button, styles.buttonYellow, styleAllowed(extensionAAllowed)]} disabled={!extensionAAllowed} onPress={extensionA}>
+                    <Pressable style={[styles.button, styleAllowed(extensionAAllowed)]} disabled={!extensionAAllowed} onPress={extensionA}>
                         <Text style={[styles.buttonText, styles.buttonTextBlack]}>Extension {props.playerA}</Text>
                     </Pressable>
-                    <Pressable style={[styles.button, styles.buttonRed, styleAllowed(extensionBAllowed)]} disabled={!extensionBAllowed} onPress={extensionB}>
+                    <Pressable style={[styles.button, styleAllowed(extensionBAllowed)]} disabled={!extensionBAllowed} onPress={extensionB}>
                         <Text style={styles.buttonText}>Extension {props.playerB}</Text>
                     </Pressable>
                 </View>
@@ -209,12 +209,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: 'blue',
         justifyContent: 'center',
-    },
-    buttonYellow: {
-        backgroundColor: 'yellow'
-    },
-    buttonRed: {
-        backgroundColor: 'red'
     },
     buttonText: {
         textAlign: 'center',
