@@ -48,6 +48,16 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         this.setState(currentState);
     }
 
+    updatePlayerA(update: string, currentState: SettingsState) {
+        currentState.timer.playerA = update;
+        this.setState(currentState);
+    }
+
+    updatePlayerB(update: string, currentState: SettingsState) {
+        currentState.timer.playerB = update;
+        this.setState(currentState);
+    }
+
     updateTimeToPlayAfterBreak(update: string, currentState: SettingsState) {
         const updatedValue = parseInt(update);
         if (!isNaN(updatedValue)) {
@@ -91,6 +101,23 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     render() {
         return (
             <View style={styles.container}>
+
+                <View style={styles.item}>
+                    <Text style={styles.itemLabel}>Joueur 1</Text>
+                    <Text style={styles.itemLabel}>Joueur 2</Text>
+                </View>
+                <View style={styles.item}>
+                    <TextInput
+                        style={styles.itemInput}
+                        value={this.state.timer.playerA}
+                        onChangeText={(text: string) => this.updatePlayerA(text, this.state)}
+                    />
+                    <TextInput
+                        style={styles.itemInput}
+                        value={this.state.timer.playerB}
+                        onChangeText={(text: string) => this.updatePlayerB(text, this.state)}
+                    />
+                </View>
 
                 <View style={styles.buttons}>
                     <Pressable style={styles.button} disabled={this.state.editable} onPress={() => this.edit(this.state)}>
@@ -166,6 +193,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
             </View>
         )
     }
+
 }
 
 const styles = StyleSheet.create({
@@ -199,7 +227,10 @@ const styles = StyleSheet.create({
     itemInput: {
         flex: 1,
         padding: 2,
-        textAlign: 'center'
+        textAlign: 'center',
+        borderWidth: 1,
+        margin: 2,
+        borderRadius: 5
     },
 });
 

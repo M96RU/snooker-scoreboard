@@ -2,6 +2,8 @@ import React from 'react';
 import {Dimensions, Pressable, StyleSheet, Text, Vibration, View} from "react-native";
 
 export interface TimerProps {
+    playerA: string,
+    playerB: string,
     timeToPlayAfterBreak: number,
     timeToAddAfterBreak: number,
     timeToPlayDuringGame: number,
@@ -43,7 +45,6 @@ const Timer = (props: TimerProps) => {
             clearTimeout(id);
         };
     });
-
 
     const pause = () => {
         if (paused > 0) {
@@ -152,8 +153,9 @@ const Timer = (props: TimerProps) => {
 
     const breakAllowed = clicked === 0;
     const nextAllowed = !breakAllowed && paused === 0;
-    const extensionAAllowed = !extensionInProgress && !alreadyExtensionA && clicked > 0 && paused === 0;
-    const extensionBAllowed = !extensionInProgress && !alreadyExtensionB && clicked > 0 && paused === 0;
+    const extensionAllowed = !extensionInProgress && clicked > 0 && paused === 0 && remains != undefined && remains > 0;
+    const extensionAAllowed = extensionAllowed && !alreadyExtensionA;
+    const extensionBAllowed = extensionAllowed && !alreadyExtensionB;
 
     return (
         <View style={[styles.container, styleOrientation()]}>
@@ -172,11 +174,11 @@ const Timer = (props: TimerProps) => {
                     </Pressable>
                 </View>
                 <View style={styles.buttons}>
-                    <Pressable style={[styles.button, styles.buttonYellow, styleAllowed(extensionAAllowed)]} disabled={!extensionAAllowed} onPress={extensionA}>
-                        <Text style={[styles.buttonText, styles.buttonTextBlack]}>Extension Jaunes</Text>
+                    <Pressable style={[styles.button, styleAllowed(extensionAAllowed)]} disabled={!extensionAAllowed} onPress={extensionA}>
+                        <Text style={[styles.buttonText, styles.buttonTextBlack]}>Extension {props.playerA}</Text>
                     </Pressable>
-                    <Pressable style={[styles.button, styles.buttonRed, styleAllowed(extensionBAllowed)]} disabled={!extensionBAllowed} onPress={extensionB}>
-                        <Text style={styles.buttonText}>Extension Rouges</Text>
+                    <Pressable style={[styles.button, styleAllowed(extensionBAllowed)]} disabled={!extensionBAllowed} onPress={extensionB}>
+                        <Text style={styles.buttonText}>Extension {props.playerB}</Text>
                     </Pressable>
                 </View>
                 <View style={styles.buttons}>
@@ -207,12 +209,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: 'blue',
         justifyContent: 'center',
-    },
-    buttonYellow: {
-        backgroundColor: 'yellow'
-    },
-    buttonRed: {
-        backgroundColor: 'red'
     },
     buttonText: {
         textAlign: 'center',
