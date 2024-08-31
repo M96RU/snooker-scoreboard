@@ -49,9 +49,9 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View>
                 <Modal visible={this.state.displaySettings}>
-                    <View style={styles.container}>
+                    <View>
                         <Settings onClose={() => this.onSettingsClose(this.state)} onChange={this.onSettingsChange} timer={this.state.timerProps}></Settings>
                     </View>
                 </Modal>

@@ -100,81 +100,74 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View>
 
-                <View style={styles.item}>
+                <View>
                     <Text style={styles.itemLabel}>Joueur 1</Text>
                     <Text style={styles.itemLabel}>Joueur 2</Text>
                 </View>
-                <View style={styles.item}>
+                <View>
                     <TextInput
-                        style={styles.itemInput}
                         value={this.state.timer.playerA}
                         onChangeText={(text: string) => this.updatePlayerA(text, this.state)}
                     />
                     <TextInput
-                        style={styles.itemInput}
                         value={this.state.timer.playerB}
                         onChangeText={(text: string) => this.updatePlayerB(text, this.state)}
                     />
                 </View>
 
-                <View style={styles.buttons}>
-                    <Pressable style={styles.button} disabled={this.state.editable} onPress={() => this.edit(this.state)}>
-                        <Text style={styles.buttonText}>MODIFIER</Text>
+                <View>
+                    <Pressable disabled={this.state.editable} onPress={() => this.edit(this.state)}>
+                        <Text>MODIFIER</Text>
                     </Pressable>
-                    <Pressable style={styles.button} onPress={() => this.switchToFBEP(this.state)}>
-                        <Text style={styles.buttonText}>FBEP</Text>
+                    <Pressable  onPress={() => this.switchToFBEP(this.state)}>
+                        <Text>FBEP</Text>
                     </Pressable>
-                    <Pressable style={styles.button} onPress={() => this.switchToFFB(this.state)}>
-                        <Text style={styles.buttonText}>FFB</Text>
+                    <Pressable onPress={() => this.switchToFFB(this.state)}>
+                        <Text>FFB</Text>
                     </Pressable>
                 </View>
 
                 <View style={styles.item}>
-                    <Text style={styles.itemLabel}>Casse</Text>
+                    <Text>Casse</Text>
                     <TextInput
-                        style={styles.itemInput}
                         editable={this.state.editable}
                         value={this.state.timer.timeToPlayAfterBreak.toString()}
                         onChangeText={(text: string) => this.updateTimeToPlayAfterBreak(text, this.state)}
                         keyboardType={'numeric'}
                     />
                 </View>
-                <View style={styles.item}>
-                    <Text style={styles.itemLabel}>Extension casse</Text>
+                <View>
+                    <Text>Extension casse</Text>
                     <TextInput
-                        style={styles.itemInput}
                         editable={this.state.editable}
                         value={this.state.timer.timeToAddAfterBreak.toString()}
                         onChangeText={(text: string) => this.updateTimeToAddAfterBreak(text, this.state)}
                         keyboardType={'numeric'}
                     />
                 </View>
-                <View style={styles.item}>
-                    <Text style={styles.itemLabel}>Visite</Text>
+                <View>
+                    <Text>Visite</Text>
                     <TextInput
-                        style={styles.itemInput}
                         editable={this.state.editable}
                         value={this.state.timer.timeToPlayDuringGame.toString()}
                         onChangeText={(text: string) => this.updateTimeToPlayDuringGame(text, this.state)}
                         keyboardType={'numeric'}
                     />
                 </View>
-                <View style={styles.item}>
-                    <Text style={styles.itemLabel}>Extension visite</Text>
+                <View>
+                    <Text>Extension visite</Text>
                     <TextInput
-                        style={styles.itemInput}
                         editable={this.state.editable}
                         value={this.state.timer.timeToAddDuringGame.toString()}
                         onChangeText={(text: string) => this.updateTimeToAddDuringGame(text, this.state)}
                         keyboardType={'numeric'}
                     />
                 </View>
-                <View style={styles.item}>
-                    <Text style={styles.itemLabel}>Alerte</Text>
+                <View>
+                    <Text>Alerte</Text>
                     <TextInput
-                        style={styles.itemInput}
                         editable={this.state.editable}
                         value={this.state.timer.alertUnderSeconds.toString()}
                         onChangeText={(text: string) => this.updateAlertUnderSeconds(text, this.state)}
@@ -182,12 +175,12 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                     />
                 </View>
 
-                <View style={styles.buttons}>
-                    <Pressable style={styles.button} onPress={() => this.props.onClose()}>
-                        <Text style={styles.buttonText}>FERMER</Text>
+                <View>
+                    <Pressable onPress={() => this.props.onClose()}>
+                        <Text>FERMER</Text>
                     </Pressable>
-                    <Pressable style={styles.button} onPress={() => this.props.onChange(this.state.timer)}>
-                        <Text style={styles.buttonText}>VALIDER</Text>
+                    <Pressable onPress={() => this.props.onChange(this.state.timer)}>
+                        <Text>VALIDER</Text>
                     </Pressable>
                 </View>
             </View>

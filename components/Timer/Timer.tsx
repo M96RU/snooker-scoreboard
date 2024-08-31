@@ -1,5 +1,6 @@
 import React from 'react';
-import {Dimensions, Pressable, StyleSheet, Text, Vibration, View} from "react-native";
+import {StyleSheet, Vibration, View} from "react-native";
+import {Button, Card, Text} from 'react-native-paper';
 
 export interface TimerProps {
     playerA: string,
@@ -47,6 +48,7 @@ const Timer = (props: TimerProps) => {
     });
 
     const pause = () => {
+        vibrate(0.3);
         if (paused > 0) {
             const newClicked = clicked + now() - paused;
             // end of pause
@@ -101,22 +103,6 @@ const Timer = (props: TimerProps) => {
         setAlreadyExtensionB(true);
     }
 
-    const styleOrientation = () => {
-        const {height, width} = Dimensions.get('window');
-        const flexDirection = height > width ? 'column' : 'row';
-        return {
-            flex: 1,
-            flexDirection: flexDirection
-        };
-    }
-    const styleAllowed = (allowed: boolean) => {
-        if (!allowed) {
-            return {
-                backgroundColor: 'grey'
-            };
-        }
-    }
-
     const vibrate = (seconds: number) => {
         Vibration.vibrate(seconds * 1000);
     }
@@ -158,84 +144,41 @@ const Timer = (props: TimerProps) => {
     const extensionBAllowed = extensionAllowed && !alreadyExtensionB;
 
     return (
-        <View style={[styles.container, styleOrientation()]}>
-            <View style={styles.subContainer}>
-                <Pressable disabled={breakAllowed} style={[counterStyle, styleAllowed(paused === 0)]} onPress={pause}>
-                    <Text style={styles.counterText}>{remains}</Text>
-                </Pressable>
-            </View>
-            <View style={styles.subContainer}>
-                <View style={styles.buttons}>
-                    <Pressable style={[styles.button, styleAllowed(breakAllowed)]} disabled={!breakAllowed} onPress={start}>
-                        <Text style={styles.buttonText}>CASSE</Text>
-                    </Pressable>
-                    <Pressable style={[styles.button, styleAllowed(nextAllowed)]} disabled={!nextAllowed} onPress={next}>
-                        <Text style={styles.buttonText}>SUIVANT</Text>
-                    </Pressable>
-                </View>
-                <View style={styles.buttons}>
-                    <Pressable style={[styles.button, styleAllowed(extensionAAllowed)]} disabled={!extensionAAllowed} onPress={extensionA}>
-                        <Text style={[styles.buttonText]}>Extension {props.playerA}</Text>
-                    </Pressable>
-                    <Pressable style={[styles.button, styleAllowed(extensionBAllowed)]} disabled={!extensionBAllowed} onPress={extensionB}>
-                        <Text style={styles.buttonText}>Extension {props.playerB}</Text>
-                    </Pressable>
-                </View>
-                <View style={styles.buttons}>
-                    <Pressable style={[styles.button, styleAllowed(nextAllowed)]} disabled={!nextAllowed} onPress={restart}>
-                        <Text style={styles.buttonText}>Nouvelle Partie</Text>
-                    </Pressable>
-                </View>
-            </View>
+        <View>
+            <Card>
+                <Card.Content>
+                    <Text style={counterStyle} variant="displayLarge">{remains}</Text>
+                </Card.Content>
+                <Card.Actions>
+                    <Button style={styles.splitWidth} mode="contained" onPress={start} disabled={!breakAllowed}>Casse</Button>
+                    <Button style={styles.splitWidth} mode="contained" onPress={pause} disabled={breakAllowed}>{paused > 0 ? 'Reprendre' : 'Pause'}</Button>
+                    <Button style={styles.splitWidth} mode="contained" onPress={next} disabled={!nextAllowed}>Suivant</Button>
+                </Card.Actions>
+                <Card.Actions>
+                    <Button style={styles.splitWidth} mode="contained" onPress={extensionA} disabled={!extensionAAllowed}>Extension {props.playerA}</Button>
+                    <Button style={styles.splitWidth} mode="contained" onPress={extensionB} disabled={!extensionBAllowed}>Extension {props.playerB}</Button>
+                </Card.Actions>
+                <Card.Actions>
+                    <Button style={styles.splitWidth} mode="contained" onPress={restart} disabled={!nextAllowed}>Nouvelle Partie</Button>
+                </Card.Actions>
+            </Card>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    splitWidth: {
         flex: 1
     },
-    subContainer: {
-        flex: 1,
-        flexDirection: 'column'
-    },
-    buttons: {
-        flex: 1,
-        flexDirection: 'row',
-    },
-    button: {
-        flex: 1,
-        margin: 10,
-        borderRadius: 5,
-        backgroundColor: 'blue',
-        justifyContent: 'center',
-    },
-    buttonText: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        verticalAlign: 'middle',
-        color: 'white',
-    },
     counter: {
-        flex: 3,
-        margin: 30,
-        justifyContent: 'center',
-        backgroundColor: 'blue',
-        borderRadius: 180
+        textAlign: 'center',
+        fontWeight: 'bold'
     },
     counterWarn: {
-        flex: 3,
-        margin: 30,
-        justifyContent: 'center',
-        backgroundColor: 'red',
-        borderRadius: 180
-    },
-    counterText: {
-        fontSize: 150,
-        fontWeight: 'bold',
-        color: 'white',
         textAlign: 'center',
-        justifyContent: 'center',
+        fontWeight: 'bold',
+        backgroundColor: 'red',
+        color: 'white'
     }
 });
 

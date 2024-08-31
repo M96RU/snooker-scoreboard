@@ -4,7 +4,7 @@ import Scorer from "./pages/Scorer";
 
 const App = () => {
     return (
-        <View style={styles.container}>
+        <View>
             <Scorer></Scorer>
         </View>
     );
