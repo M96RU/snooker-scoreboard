@@ -1,10 +1,14 @@
 import React from 'react';
-import {StyleSheet, View,} from 'react-native';
+import {Dimensions, EmitterSubscription, StyleSheet, View, ViewStyle,} from 'react-native';
 import {TimerProps} from "../Timer";
 import {Button, Card, TextInput} from "react-native-paper";
 
 enum Mode {
     FFB, FBEP, CUSTOM
+}
+
+enum Screen {
+    LANDSCAPE, PORTRAIT
 }
 
 interface SettingsProps {
@@ -15,17 +19,35 @@ interface SettingsProps {
 
 interface SettingsState {
     timer: TimerProps,
-    mode: Mode
+    mode: Mode,
+    screen: Screen
 }
 
 class Settings extends React.Component<SettingsProps, SettingsState> {
 
+    subscription: EmitterSubscription;
+
     constructor(props: SettingsProps) {
+        const {height, width} = Dimensions.get('window');
         super(props);
         this.state = {
             timer: props.timer,
-            mode: Mode.FFB
+            mode: Mode.FFB,
+            screen: height > width ? Screen.PORTRAIT : Screen.LANDSCAPE
         }
+        this.subscription = Dimensions.addEventListener('change', ({window}) => {
+                const newState: SettingsState = {
+                    timer: this.state.timer,
+                    mode: this.state.mode,
+                    screen: window.height > window.width ? Screen.PORTRAIT : Screen.LANDSCAPE
+                }
+                this.setState(newState);
+            },
+        );
+    }
+
+    componentWillUnmount() {
+        this.subscription?.remove();
     }
 
     edit(currentState: SettingsState) {
@@ -103,59 +125,86 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         }
     }
 
+    screenOrientationStyle(screen: Screen): ViewStyle {
+        return {
+            flex: 1,
+            flexDirection: screen == Screen.LANDSCAPE ? 'row' : 'column'
+        };
+    }
+
+    screenSubContainerOrientationStyle(screen: Screen): ViewStyle {
+        if (screen == Screen.LANDSCAPE) {
+            return {
+                flex: 1
+            };
+        }
+        return {};
+    }
+
     render() {
         return (
 
-            <View style={styles.container}>
+            <View style={this.screenOrientationStyle(this.state.screen)}>
 
-                <Card style={styles.item}>
-                    <Card.Title title={'Timer'}/>
-                    <Card.Content>
-                        <TextInput
-                            label={'Casse'}
-                            editable={this.state.mode === Mode.CUSTOM}
-                            value={this.state.timer.timeToPlayAfterBreak.toString()}
-                            onChangeText={(text: string) => this.updateTimeToPlayAfterBreak(text, this.state)}
-                            keyboardType={'numeric'}
-                        />
-                        <TextInput
-                            label={'Extension casse'}
-                            editable={this.state.mode === Mode.CUSTOM}
-                            value={this.state.timer.timeToAddAfterBreak.toString()}
-                            onChangeText={(text: string) => this.updateTimeToAddAfterBreak(text, this.state)}
-                            keyboardType={'numeric'}
-                        />
-                        <TextInput
-                            label={'Visite'}
-                            editable={this.state.mode === Mode.CUSTOM}
-                            value={this.state.timer.timeToPlayDuringGame.toString()}
-                            onChangeText={(text: string) => this.updateTimeToPlayDuringGame(text, this.state)}
-                            keyboardType={'numeric'}
-                        />
-                        <TextInput
-                            label={'Extension visite'}
-                            editable={this.state.mode === Mode.CUSTOM}
-                            value={this.state.timer.timeToAddDuringGame.toString()}
-                            onChangeText={(text: string) => this.updateTimeToAddDuringGame(text, this.state)}
-                            keyboardType={'numeric'}
-                        />
-                        <TextInput
-                            label={'Alerte'}
-                            editable={this.state.mode === Mode.CUSTOM}
-                            value={this.state.timer.alertUnderSeconds.toString()}
-                            onChangeText={(text: string) => this.updateAlertUnderSeconds(text, this.state)}
-                            keyboardType={'numeric'}
-                        />
-                    </Card.Content>
-                    <Card.Actions>
-                        <Button mode={'text'} disabled={this.state.mode === Mode.CUSTOM} onPress={() => this.edit(this.state)}>Modifier</Button>
-                        <Button mode={'text'} disabled={this.state.mode === Mode.FBEP} onPress={() => this.switchToFBEP(this.state)}>FBEP</Button>
-                        <Button mode={'text'} disabled={this.state.mode === Mode.FFB} onPress={() => this.switchToFFB(this.state)}>FFB</Button>
-                    </Card.Actions>
-                </Card>
+                <View style={[styles.subContainer, this.screenSubContainerOrientationStyle(this.state.screen)]}>
+                    <Card>
+                        <Card.Title title={'Timer'}/>
+                        <Card.Content style={styles.buttons}>
+                            <TextInput
+                                style={styles.button}
+                                label={'Casse'}
+                                editable={this.state.mode === Mode.CUSTOM}
+                                value={this.state.timer.timeToPlayAfterBreak.toString()}
+                                onChangeText={(text: string) => this.updateTimeToPlayAfterBreak(text, this.state)}
+                                keyboardType={'numeric'}
+                            />
+                            <TextInput
+                                style={styles.button}
+                                label={'Extension casse'}
+                                editable={this.state.mode === Mode.CUSTOM}
+                                value={this.state.timer.timeToAddAfterBreak.toString()}
+                                onChangeText={(text: string) => this.updateTimeToAddAfterBreak(text, this.state)}
+                                keyboardType={'numeric'}
+                            />
+                        </Card.Content>
+                        <Card.Content style={styles.buttons}>
+                            <TextInput
+                                style={styles.button}
+                                label={'Visite'}
+                                editable={this.state.mode === Mode.CUSTOM}
+                                value={this.state.timer.timeToPlayDuringGame.toString()}
+                                onChangeText={(text: string) => this.updateTimeToPlayDuringGame(text, this.state)}
+                                keyboardType={'numeric'}
+                            />
+                            <TextInput
+                                style={styles.button}
+                                label={'Extension visite'}
+                                editable={this.state.mode === Mode.CUSTOM}
+                                value={this.state.timer.timeToAddDuringGame.toString()}
+                                onChangeText={(text: string) => this.updateTimeToAddDuringGame(text, this.state)}
+                                keyboardType={'numeric'}
+                            />
+                        </Card.Content>
+                        <Card.Content style={styles.buttons}>
+                            <TextInput
+                                style={styles.button}
+                                label={'Alerte'}
+                                editable={this.state.mode === Mode.CUSTOM}
+                                value={this.state.timer.alertUnderSeconds.toString()}
+                                onChangeText={(text: string) => this.updateAlertUnderSeconds(text, this.state)}
+                                keyboardType={'numeric'}
+                            />
+                        </Card.Content>
+                        <Card.Actions>
+                            <Button mode={'text'} disabled={this.state.mode === Mode.CUSTOM} onPress={() => this.edit(this.state)}>Modifier</Button>
+                            <Button mode={'text'} disabled={this.state.mode === Mode.FBEP} onPress={() => this.switchToFBEP(this.state)}>FBEP</Button>
+                            <Button mode={'text'} disabled={this.state.mode === Mode.FFB} onPress={() => this.switchToFFB(this.state)}>FFB</Button>
+                        </Card.Actions>
+                    </Card>
+                </View>
 
-                <View>
-                    <Card style={styles.item}>
+                <View style={[styles.subContainer, this.screenSubContainerOrientationStyle(this.state.screen)]}>
+                    <Card>
                         <Card.Title title={'Match'}/>
                         <Card.Content>
                             <TextInput label='Joueur 1' value={this.state.timer.playerA} onChangeText={(text: string) => this.updatePlayerA(text, this.state)}/>
@@ -168,7 +217,6 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                         <Button style={styles.button} mode={'contained'} onPress={() => this.props.onChange(this.state.timer)}>Sauvegarder</Button>
                     </View>
                 </View>
-
             </View>
         )
     }
@@ -176,11 +224,11 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'column'
+    subContainer: {
+        margin: 10,
     },
     item: {
-        margin: 10
+        margin: 10,
     },
     buttons: {
         flexDirection: 'row',
