@@ -144,25 +144,23 @@ const Timer = (props: TimerProps) => {
     const extensionBAllowed = extensionAllowed && !alreadyExtensionB;
 
     return (
-        <View>
-            <Card>
-                <Card.Content>
-                    <Text style={counterStyle} variant="displayLarge">{remains}</Text>
-                </Card.Content>
-                <Card.Actions>
-                    <Button style={styles.splitWidth} mode="contained" onPress={start} disabled={!breakAllowed}>Casse</Button>
-                    <Button style={styles.splitWidth} mode="contained" onPress={pause} disabled={breakAllowed}>{paused > 0 ? 'Reprendre' : 'Pause'}</Button>
-                    <Button style={styles.splitWidth} mode="contained" onPress={next} disabled={!nextAllowed}>Suivant</Button>
-                </Card.Actions>
-                <Card.Actions>
-                    <Button style={styles.splitWidth} mode="contained" onPress={extensionA} disabled={!extensionAAllowed}>Extension {props.playerA}</Button>
-                    <Button style={styles.splitWidth} mode="contained" onPress={extensionB} disabled={!extensionBAllowed}>Extension {props.playerB}</Button>
-                </Card.Actions>
-                <Card.Actions>
-                    <Button style={styles.splitWidth} mode="contained" onPress={restart} disabled={!nextAllowed}>Nouvelle Partie</Button>
-                </Card.Actions>
-            </Card>
-        </View>
+        <Card>
+            <Card.Content>
+                <Text style={counterStyle} variant="displayLarge">{remains ? remains : '-'}</Text>
+            </Card.Content>
+            <Card.Actions>
+                <Button style={styles.splitWidth} mode="contained" onPress={start} disabled={!breakAllowed}>Casse</Button>
+                <Button style={styles.splitWidth} mode="contained-tonal" onPress={pause} disabled={breakAllowed}>{paused > 0 ? 'Reprendre' : 'Pause'}</Button>
+                <Button style={styles.splitWidth} mode="contained" onPress={next} disabled={!nextAllowed}>Suivant</Button>
+            </Card.Actions>
+            <Card.Actions>
+                <Button style={styles.splitWidth} mode="contained" onPress={extensionA} disabled={!extensionAAllowed}>Extension {props.playerA}</Button>
+                <Button style={styles.splitWidth} mode="contained" onPress={extensionB} disabled={!extensionBAllowed}>Extension {props.playerB}</Button>
+            </Card.Actions>
+            <Card.Actions>
+                <Button style={styles.splitWidth} mode="contained-tonal" onPress={restart} disabled={!nextAllowed}>Nouvelle Partie</Button>
+            </Card.Actions>
+        </Card>
     );
 };
 
