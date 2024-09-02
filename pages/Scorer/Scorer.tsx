@@ -51,11 +51,9 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
         return (
             <View style={styles.container}>
                 <Modal visible={this.state.displaySettings}>
-                    <View style={styles.container}>
-                        <Settings onClose={() => this.onSettingsClose(this.state)} onChange={this.onSettingsChange} timer={this.state.timerProps}></Settings>
-                    </View>
+                    <Settings onClose={() => this.onSettingsClose(this.state)} onChange={this.onSettingsChange} timer={this.state.timerProps}></Settings>
                 </Modal>
-                <Pressable onPress={() => this.displaySettings(this.state)}>
+                <Pressable style={styles.item} onPress={() => this.displaySettings(this.state)}>
                     <Image source={require('../../images/icons/settings-32.png')}></Image>
                 </Pressable>
                 <Timer {...this.state.timerProps}/>
@@ -66,8 +64,11 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        flexDirection: 'column',
+        margin: 10,
+    },
+    item: {
+        marginBottom: 10,
+        alignItems: 'flex-end'
     }
 });
 
