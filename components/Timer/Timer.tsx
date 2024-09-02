@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Vibration, View} from "react-native";
+import {StyleSheet, Vibration} from "react-native";
 import {Button, Card, Text} from 'react-native-paper';
 
 export interface TimerProps {
