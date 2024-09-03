@@ -1,6 +1,6 @@
 import React from 'react';
-import {StyleSheet, Vibration} from "react-native";
-import {Button, Card, Text} from 'react-native-paper';
+import {StyleSheet, Vibration, View} from "react-native";
+import {Button, Card, Text, useTheme} from 'react-native-paper';
 
 export interface TimerProps {
     playerA: string,
@@ -13,6 +13,8 @@ export interface TimerProps {
 }
 
 const Timer = (props: TimerProps) => {
+
+    const theme = useTheme();
 
     const now = () => {
         return new Date().getTime();
@@ -146,18 +148,21 @@ const Timer = (props: TimerProps) => {
     return (
         <Card>
             <Card.Content>
-                <Text style={counterStyle} variant="displayLarge">{remains ? remains : '-'}</Text>
+                <Text style={counterStyle} variant="displayLarge">{remains === 0 ? 'FAUTE' : (remains ? remains : '-')}</Text>
             </Card.Content>
             <Card.Actions>
                 <Button style={styles.splitWidth} mode="contained" onPress={start} disabled={!breakAllowed}>Casse</Button>
-                <Button style={styles.splitWidth} mode="contained-tonal" onPress={pause} disabled={breakAllowed}>{paused > 0 ? 'Reprendre' : 'Pause'}</Button>
                 <Button style={styles.splitWidth} mode="contained" onPress={next} disabled={!nextAllowed}>Suivant</Button>
             </Card.Actions>
-            <Card.Actions>
-                <Button style={styles.splitWidth} mode="contained" onPress={extensionA} disabled={!extensionAAllowed}>Extension {props.playerA}</Button>
-                <Button style={styles.splitWidth} mode="contained" onPress={extensionB} disabled={!extensionBAllowed}>Extension {props.playerB}</Button>
+            <Card.Actions style={[styles.item, {backgroundColor: theme.colors.surfaceVariant, borderRadius: 10, flexDirection: 'column', marginLeft: 20, marginRight: 20}]}>
+                <Text>Extensions</Text>
+                <View style={{flexDirection: 'row'}}>
+                    <Button style={[styles.splitWidth, {margin: 3}]} mode="contained" onPress={extensionA} disabled={!extensionAAllowed}>{props.playerA}</Button>
+                    <Button style={[styles.splitWidth, {margin: 3}]} mode="contained" onPress={extensionB} disabled={!extensionBAllowed}>{props.playerB}</Button>
+                </View>
             </Card.Actions>
             <Card.Actions>
+                <Button style={styles.splitWidth} mode="contained-tonal" onPress={pause} disabled={breakAllowed}>{paused > 0 ? 'Reprendre' : 'Pause'}</Button>
                 <Button style={styles.splitWidth} mode="contained-tonal" onPress={restart} disabled={!nextAllowed}>Nouvelle Partie</Button>
             </Card.Actions>
         </Card>
@@ -165,6 +170,9 @@ const Timer = (props: TimerProps) => {
 };
 
 const styles = StyleSheet.create({
+    item: {
+        margin: 10,
+    },
     splitWidth: {
         flex: 1
     },
@@ -175,8 +183,7 @@ const styles = StyleSheet.create({
     counterWarn: {
         textAlign: 'center',
         fontWeight: 'bold',
-        backgroundColor: 'red',
-        color: 'white'
+        color: 'red'
     }
 });
 
