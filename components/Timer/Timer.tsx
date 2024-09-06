@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Vibration, View} from "react-native";
+import {activateKeepAwakeAsync, deactivateKeepAwake} from 'expo-keep-awake';
 import {Button, Card, Text, useTheme} from 'react-native-paper';
 
 export interface TimerProps {
@@ -63,6 +64,7 @@ const Timer = (props: TimerProps) => {
     }
 
     const start = () => {
+        activateKeepAwakeAsync();
         vibrate(0.3);
         setClicked(now());
         setPaused(0);
@@ -74,6 +76,7 @@ const Timer = (props: TimerProps) => {
         setAlreadyVibrateFault(false);
     }
     const restart = () => {
+        deactivateKeepAwake();
         vibrate(0.3);
         setClicked(0);
     }
