@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Vibration, View} from "react-native";
+import {StyleSheet, Vibration, View} from 'react-native';
 import {activateKeepAwakeAsync, deactivateKeepAwake} from 'expo-keep-awake';
 import {Button, Card, Text, useTheme} from 'react-native-paper';
 
