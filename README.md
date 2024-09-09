@@ -5,6 +5,13 @@ After installing new dependency :
    npm run android
    ```
 
+Build APK
+   ```bash
+   gradle clean assembleRelease bundleRelease > error
+   gradle assembleRelease > ok
+   gradle bundleRelease > ok
+   ```
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).

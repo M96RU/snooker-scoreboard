@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, StyleSheet, View, ViewStyle} from 'react-native';
+import {Dimensions, EmitterSubscription, StyleSheet, View, ViewStyle} from 'react-native';
 import {TimerProps} from '@/components/Timer';
 import {Button, Card, TextInput} from 'react-native-paper';
 
@@ -25,6 +25,8 @@ interface SettingsState {
 
 class Settings extends React.Component<SettingsProps, SettingsState> {
 
+    subscription: EmitterSubscription;
+
     constructor(props: SettingsProps) {
         const {height, width} = Dimensions.get('window');
         super(props);
@@ -33,6 +35,18 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
             mode: Mode.FFB,
             screen: height > width ? Screen.PORTRAIT : Screen.LANDSCAPE
         }
+        this.subscription = Dimensions.addEventListener("change", ({window}) => {
+            const newState = {
+                timer: this.state.timer,
+                mode: this.state.mode,
+                screen: window.height > window.width ? Screen.PORTRAIT : Screen.LANDSCAPE
+            }
+            this.setState(newState);
+        });
+    }
+
+    componentWillUnmount() {
+        this.subscription?.remove();
     }
 
     edit(currentState: SettingsState) {
