@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, Modal, Pressable, StyleSheet, View,} from 'react-native';
-import Timer, {TimerProps} from "@/components/Timer";
-import Settings from "@/components/Settings";
+import Timer, {TimerProps} from '@/components/Timer';
+import Settings from '@/components/Settings';
 
 interface ScorerProps {
 }
@@ -19,6 +19,10 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
         this.state = {
             displaySettings: false,
             timerProps: {
+                duration: {
+                    hours: 1,
+                    minutes: 45
+                },
                 playerA: 'J1',
                 playerB: 'J2',
                 timeToPlayAfterBreak: 90,

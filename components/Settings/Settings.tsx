@@ -1,7 +1,8 @@
 import React from 'react';
 import {Dimensions, EmitterSubscription, StyleSheet, View, ViewStyle} from 'react-native';
 import {TimerProps} from '@/components/Timer';
-import {Button, Card, TextInput} from 'react-native-paper';
+import {Button, Card, Text, TextInput} from 'react-native-paper';
+import {Picker} from '@react-native-picker/picker';
 
 enum Mode {
     FFB, FBEP, CUSTOM
@@ -71,6 +72,16 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         currentState.timer.timeToPlayDuringGame = 45;
         currentState.timer.timeToAddDuringGame = 45;
         currentState.timer.alertUnderSeconds = 20;
+        this.setState(currentState);
+    }
+
+    updateDurationHours(update: number, currentState: SettingsState) {
+        currentState.timer.duration.hours = update;
+        this.setState(currentState);
+    }
+
+    updateDurationMinutes(update: number, currentState: SettingsState) {
+        currentState.timer.duration.minutes = update;
         this.setState(currentState);
     }
 
@@ -208,6 +219,20 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                         <Card.Content>
                             <TextInput label='Joueur 1' value={this.state.timer.playerA} onChangeText={(text: string) => this.updatePlayerA(text, this.state)}/>
                             <TextInput label='Joueur 2' value={this.state.timer.playerB} onChangeText={(text: string) => this.updatePlayerB(text, this.state)}/>
+                            <View style={styles.buttons}>
+                                <Text  style={[styles.button, {verticalAlign:'middle', flex: 0.7}]}>Durée</Text>
+                                <Picker style={styles.button} selectedValue={this.state.timer.duration.hours} onValueChange={(hours: number) => this.updateDurationHours(hours, this.state)}>
+                                    <Picker.Item label={'0h'} value={0}/>
+                                    <Picker.Item label={'1h'} value={1}/>
+                                    <Picker.Item label={'2h'} value={2}/>
+                                </Picker>
+                                <Picker style={styles.button} selectedValue={this.state.timer.duration.minutes} onValueChange={(minutes: number) => this.updateDurationMinutes(minutes, this.state)}>
+                                    <Picker.Item label={'0 min'} value={0}/>
+                                    <Picker.Item label={'15 min'} value={15}/>
+                                    <Picker.Item label={'30 min'} value={30}/>
+                                    <Picker.Item label={'45 min'} value={45}/>
+                                </Picker>
+                            </View>
                         </Card.Content>
                     </Card>
 

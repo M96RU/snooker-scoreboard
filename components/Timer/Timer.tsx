@@ -3,7 +3,13 @@ import {StyleSheet, Vibration, View} from 'react-native';
 import {activateKeepAwakeAsync, deactivateKeepAwake} from 'expo-keep-awake';
 import {Button, Card, Text, useTheme} from 'react-native-paper';
 
+export interface MatchDuration {
+    hours: number,
+    minutes: number
+}
+
 export interface TimerProps {
+    duration: MatchDuration,
     playerA: string,
     playerB: string,
     timeToPlayAfterBreak: number,
