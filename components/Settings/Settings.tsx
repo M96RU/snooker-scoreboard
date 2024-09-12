@@ -157,7 +157,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         const minutes = duration - (hours * 60);
         const padding = minutes < 10 ? '0' : '';
 
-        return 'Temps de jeu: ' + hours + 'h' + padding + minutes + 'min';
+        return 'Temps de jeu: ' + hours + 'h ' + padding + minutes + 'min';
     }
 
     render() {
@@ -228,7 +228,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                         <Card.Content>
 
                             <View>
-                                <Text style={{textAlign:'center'}}>{this.getDurationLabel(this.state.timer.duration)}</Text>
+                                <Text style={{textAlign: 'center'}}>{this.getDurationLabel(this.state.timer.duration)}</Text>
                                 <Slider
                                     value={this.state.timer.duration}
                                     minimumValue={0}

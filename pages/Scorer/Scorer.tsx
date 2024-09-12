@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, Modal, Pressable, StyleSheet, View,} from 'react-native';
 import Timer, {TimerProps} from '@/components/Timer';
 import Settings from '@/components/Settings';
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 interface ScorerProps {
 }
@@ -55,7 +56,7 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
                     <Settings onClose={() => this.onSettingsClose(this.state)} onChange={this.onSettingsChange} timer={this.state.timerProps}></Settings>
                 </Modal>
                 <Pressable style={styles.item} onPress={() => this.displaySettings(this.state)}>
-                    <Image source={require('@/images/icons/settings-32.png')}></Image>
+                    <MaterialIcons name="settings" size={48} color="black" />
                 </Pressable>
                 <Timer {...this.state.timerProps}/>
             </View>
