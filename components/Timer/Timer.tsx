@@ -1,7 +1,8 @@
 import React from 'react';
-import {StyleSheet, Vibration, View} from 'react-native';
+import {Pressable, StyleSheet, Vibration, View} from 'react-native';
 import {activateKeepAwakeAsync, deactivateKeepAwake} from 'expo-keep-awake';
 import {Button, Card, Text, useTheme} from 'react-native-paper';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export interface TimerProps {
     duration: number,
@@ -153,21 +154,27 @@ const Timer = (props: TimerProps) => {
         <Card>
             <Card.Content>
                 <Text style={counterStyle} variant="displayLarge">{remains === 0 ? 'FAUTE' : (remains ? remains : '-')}</Text>
+                <View style={styles.buttons}>
+                    <Pressable onPress={start} disabled={!breakAllowed}>
+                        <MaterialIcons name="play-arrow" size={64} color={breakAllowed ? "black" : "grey"}/>
+                    </Pressable>
+                    <Pressable onPress={restart} disabled={!nextAllowed}>
+                        <MaterialIcons name="stop" size={64} color={nextAllowed ? "black" : "grey"}/>
+                    </Pressable>
+                    <Pressable onPress={pause} disabled={breakAllowed}>
+                        <MaterialIcons name="pause" size={64} color={breakAllowed ? "grey" : "black"}/>
+                    </Pressable>
+                    <Pressable onPress={next} disabled={!nextAllowed}>
+                        <MaterialIcons name="skip-next" size={64} color={nextAllowed ? "black" : "grey"}/>
+                    </Pressable>
+                </View>
             </Card.Content>
-            <Card.Actions>
-                <Button style={styles.splitWidth} mode="contained" onPress={start} disabled={!breakAllowed}>Casse</Button>
-                <Button style={styles.splitWidth} mode="contained" onPress={next} disabled={!nextAllowed}>Suivant</Button>
-            </Card.Actions>
             <Card.Actions style={[styles.item, {backgroundColor: theme.colors.surfaceVariant, borderRadius: 10, flexDirection: 'column', marginLeft: 20, marginRight: 20}]}>
                 <Text>Extensions</Text>
                 <View style={{flexDirection: 'row'}}>
                     <Button style={[styles.splitWidth, {margin: 3}]} mode="contained" onPress={extensionA} disabled={!extensionAAllowed}>{props.playerA}</Button>
                     <Button style={[styles.splitWidth, {margin: 3}]} mode="contained" onPress={extensionB} disabled={!extensionBAllowed}>{props.playerB}</Button>
                 </View>
-            </Card.Actions>
-            <Card.Actions>
-                <Button style={styles.splitWidth} mode="contained-tonal" onPress={pause} disabled={breakAllowed}>{paused > 0 ? 'Reprendre' : 'Pause'}</Button>
-                <Button style={styles.splitWidth} mode="contained-tonal" onPress={restart} disabled={!nextAllowed}>Nouvelle Partie</Button>
             </Card.Actions>
         </Card>
     );
@@ -179,6 +186,10 @@ const styles = StyleSheet.create({
     },
     splitWidth: {
         flex: 1
+    },
+    buttons: {
+        flexDirection: 'row',
+        justifyContent:'center'
     },
     counter: {
         textAlign: 'center',
