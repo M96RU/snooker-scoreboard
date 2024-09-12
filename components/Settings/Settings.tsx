@@ -2,7 +2,7 @@ import React from 'react';
 import {Dimensions, EmitterSubscription, StyleSheet, View, ViewStyle} from 'react-native';
 import {TimerProps} from '@/components/Timer';
 import {Button, Card, Text, TextInput} from 'react-native-paper';
-import {Picker} from '@react-native-picker/picker';
+import Slider from '@react-native-community/slider';
 
 enum Mode {
     FFB, FBEP, CUSTOM
@@ -75,13 +75,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         this.setState(currentState);
     }
 
-    updateDurationHours(update: number, currentState: SettingsState) {
-        currentState.timer.duration.hours = update;
-        this.setState(currentState);
-    }
-
-    updateDurationMinutes(update: number, currentState: SettingsState) {
-        currentState.timer.duration.minutes = update;
+    updateDuration(update: number, currentState: SettingsState) {
+        currentState.timer.duration = update;
         this.setState(currentState);
     }
 
@@ -151,6 +146,20 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         return {};
     }
 
+    getDurationLabel(duration: number) {
+        if (duration == 0) {
+            return 'Temps illimité';
+        }
+        if (duration < 60) {
+            return 'Temps de jeu: ' + duration + ' minutes';
+        }
+        const hours = Math.floor(duration / 60);
+        const minutes = duration - (hours * 60);
+        const padding = minutes < 10 ? '0' : '';
+
+        return 'Temps de jeu: ' + hours + 'h' + padding + minutes + 'min';
+    }
+
     render() {
         return (
 
@@ -217,22 +226,19 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                     <Card>
                         <Card.Title title={'Match'}/>
                         <Card.Content>
+
+                            <View>
+                                <Text style={{textAlign:'center'}}>{this.getDurationLabel(this.state.timer.duration)}</Text>
+                                <Slider
+                                    value={this.state.timer.duration}
+                                    minimumValue={0}
+                                    maximumValue={240}
+                                    onValueChange={(duration: number) => this.updateDuration(duration, this.state)}
+                                    step={5}
+                                />
+                            </View>
                             <TextInput label='Joueur 1' value={this.state.timer.playerA} onChangeText={(text: string) => this.updatePlayerA(text, this.state)}/>
                             <TextInput label='Joueur 2' value={this.state.timer.playerB} onChangeText={(text: string) => this.updatePlayerB(text, this.state)}/>
-                            <View style={styles.buttons}>
-                                <Text  style={[styles.button, {verticalAlign:'middle', flex: 0.7}]}>Durée</Text>
-                                <Picker style={styles.button} selectedValue={this.state.timer.duration.hours} onValueChange={(hours: number) => this.updateDurationHours(hours, this.state)}>
-                                    <Picker.Item label={'0h'} value={0}/>
-                                    <Picker.Item label={'1h'} value={1}/>
-                                    <Picker.Item label={'2h'} value={2}/>
-                                </Picker>
-                                <Picker style={styles.button} selectedValue={this.state.timer.duration.minutes} onValueChange={(minutes: number) => this.updateDurationMinutes(minutes, this.state)}>
-                                    <Picker.Item label={'0 min'} value={0}/>
-                                    <Picker.Item label={'15 min'} value={15}/>
-                                    <Picker.Item label={'30 min'} value={30}/>
-                                    <Picker.Item label={'45 min'} value={45}/>
-                                </Picker>
-                            </View>
                         </Card.Content>
                     </Card>
 

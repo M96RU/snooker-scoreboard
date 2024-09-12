@@ -19,10 +19,7 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
         this.state = {
             displaySettings: false,
             timerProps: {
-                duration: {
-                    hours: 1,
-                    minutes: 45
-                },
+                duration: 105,
                 playerA: 'J1',
                 playerB: 'J2',
                 timeToPlayAfterBreak: 90,
