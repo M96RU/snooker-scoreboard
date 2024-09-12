@@ -1,15 +1,17 @@
 import React from 'react';
-import {Image, Modal, Pressable, StyleSheet, View,} from 'react-native';
+import {Modal, Pressable, StyleSheet, View,} from 'react-native';
 import Timer, {TimerProps} from '@/components/Timer';
 import Settings from '@/components/Settings';
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import MatchDurationTimer, {MatchDurationTimerProps} from "@/components/MatchDurationTimer";
 
 interface ScorerProps {
 }
 
 interface ScorerState {
     displaySettings: boolean,
-    timerProps: TimerProps
+    timerProps: TimerProps,
+    matchDurationTimerProps: MatchDurationTimerProps
 }
 
 class Scorer extends React.Component<ScorerProps, ScorerState> {
@@ -20,7 +22,6 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
         this.state = {
             displaySettings: false,
             timerProps: {
-                duration: 105,
                 playerA: 'J1',
                 playerB: 'J2',
                 timeToPlayAfterBreak: 90,
@@ -28,6 +29,10 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
                 timeToPlayDuringGame: 45,
                 timeToAddDuringGame: 45,
                 alertUnderSeconds: 20
+            },
+            matchDurationTimerProps: {
+                duration: 105,
+                alertUnderMinutes: 15
             }
         }
     }
@@ -53,12 +58,20 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
         return (
             <View style={styles.container}>
                 <Modal visible={this.state.displaySettings}>
-                    <Settings onClose={() => this.onSettingsClose(this.state)} onChange={this.onSettingsChange} timer={this.state.timerProps}></Settings>
+                    <Settings
+                        onClose={() => this.onSettingsClose(this.state)}
+                        onChange={this.onSettingsChange}
+                        timer={this.state.timerProps}
+                        matchDurationTimer={this.state.matchDurationTimerProps}
+                    />
                 </Modal>
                 <Pressable style={styles.item} onPress={() => this.displaySettings(this.state)}>
-                    <MaterialIcons name="settings" size={48} color="black" />
+                    <MaterialIcons name="settings" size={48} color="black"/>
                 </Pressable>
-                <Timer {...this.state.timerProps}/>
+                <View>
+                    <Timer {...this.state.timerProps}/>
+                    <MatchDurationTimer {...this.state.matchDurationTimerProps} />
+                </View>
             </View>
         );
     }

@@ -5,7 +5,6 @@ import {Button, Card, Text, useTheme} from 'react-native-paper';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export interface TimerProps {
-    duration: number,
     playerA: string,
     playerB: string,
     timeToPlayAfterBreak: number,

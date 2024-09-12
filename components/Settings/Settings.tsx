@@ -3,6 +3,7 @@ import {Dimensions, EmitterSubscription, StyleSheet, View, ViewStyle} from 'reac
 import {TimerProps} from '@/components/Timer';
 import {Button, Card, Text, TextInput} from 'react-native-paper';
 import Slider from '@react-native-community/slider';
+import {MatchDurationTimerProps} from '@/components/MatchDurationTimer';
 
 enum Mode {
     FFB, FBEP, CUSTOM
@@ -14,12 +15,14 @@ enum Screen {
 
 interface SettingsProps {
     timer: TimerProps,
+    matchDurationTimer: MatchDurationTimerProps,
     onChange: (param: TimerProps) => void;
     onClose: () => void;
 }
 
 interface SettingsState {
     timer: TimerProps,
+    matchDurationTimer: MatchDurationTimerProps,
     mode: Mode,
     screen: Screen
 }
@@ -33,12 +36,14 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         super(props);
         this.state = {
             timer: props.timer,
+            matchDurationTimer: props.matchDurationTimer,
             mode: Mode.FFB,
             screen: height > width ? Screen.PORTRAIT : Screen.LANDSCAPE
         }
         this.subscription = Dimensions.addEventListener("change", ({window}) => {
             const newState = {
                 timer: this.state.timer,
+                matchDurationTimer: this.state.matchDurationTimer,
                 mode: this.state.mode,
                 screen: window.height > window.width ? Screen.PORTRAIT : Screen.LANDSCAPE
             }
@@ -76,7 +81,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     }
 
     updateDuration(update: number, currentState: SettingsState) {
-        currentState.timer.duration = update;
+        currentState.matchDurationTimer.duration = update;
         this.setState(currentState);
     }
 
@@ -228,9 +233,9 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                         <Card.Content>
 
                             <View>
-                                <Text style={{textAlign: 'center'}}>{this.getDurationLabel(this.state.timer.duration)}</Text>
+                                <Text style={{textAlign: 'center'}}>{this.getDurationLabel(this.state.matchDurationTimer.duration)}</Text>
                                 <Slider
-                                    value={this.state.timer.duration}
+                                    value={this.state.matchDurationTimer.duration}
                                     minimumValue={0}
                                     maximumValue={240}
                                     onValueChange={(duration: number) => this.updateDuration(duration, this.state)}
