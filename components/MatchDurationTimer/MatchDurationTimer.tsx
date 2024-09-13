@@ -59,7 +59,7 @@ const MatchDurationTimer = (props: MatchDurationTimerProps) => {
 
     const remainsLabel = (seconds: number) => {
         if (seconds < 0) {
-            return '-'
+            return '-';
         }
 
         if (seconds === 0) {
@@ -114,7 +114,7 @@ const MatchDurationTimer = (props: MatchDurationTimerProps) => {
 
     return (
         <Card>
-            <Card.Title title={"Temps de match"} />
+            <Card.Title title={"Temps de match"}/>
             <Card.Content>
                 <Text style={counterStyle} variant="displayLarge">{remainsLabel(remains)}</Text>
                 <View style={styles.buttons}>

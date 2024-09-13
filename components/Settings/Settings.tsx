@@ -1,20 +1,18 @@
 import React from 'react';
-import {Dimensions, EmitterSubscription, StyleSheet, View, ViewStyle} from 'react-native';
+import {StyleSheet, View, ViewStyle} from 'react-native';
 import {TimerProps} from '@/components/Timer';
 import {Button, Card, Text, TextInput} from 'react-native-paper';
 import Slider from '@react-native-community/slider';
 import {MatchDurationTimerProps} from '@/components/MatchDurationTimer';
+import Screen from '@/models/Screen';
 
 enum Mode {
     FFB, FBEP, CUSTOM
 }
 
-enum Screen {
-    LANDSCAPE, PORTRAIT
-}
-
 interface SettingsProps {
     timer: TimerProps,
+    screen: Screen,
     matchDurationTimer: MatchDurationTimerProps,
     onChange: (param: TimerProps) => void;
     onClose: () => void;
@@ -23,36 +21,18 @@ interface SettingsProps {
 interface SettingsState {
     timer: TimerProps,
     matchDurationTimer: MatchDurationTimerProps,
-    mode: Mode,
-    screen: Screen
+    mode: Mode
 }
 
 class Settings extends React.Component<SettingsProps, SettingsState> {
 
-    subscription: EmitterSubscription;
-
     constructor(props: SettingsProps) {
-        const {height, width} = Dimensions.get('window');
         super(props);
         this.state = {
             timer: props.timer,
             matchDurationTimer: props.matchDurationTimer,
-            mode: Mode.FFB,
-            screen: height > width ? Screen.PORTRAIT : Screen.LANDSCAPE
+            mode: Mode.FFB
         }
-        this.subscription = Dimensions.addEventListener("change", ({window}) => {
-            const newState = {
-                timer: this.state.timer,
-                matchDurationTimer: this.state.matchDurationTimer,
-                mode: this.state.mode,
-                screen: window.height > window.width ? Screen.PORTRAIT : Screen.LANDSCAPE
-            }
-            this.setState(newState);
-        });
-    }
-
-    componentWillUnmount() {
-        this.subscription?.remove();
     }
 
     edit(currentState: SettingsState) {
@@ -168,9 +148,9 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     render() {
         return (
 
-            <View style={this.screenOrientationStyle(this.state.screen)}>
+            <View style={this.screenOrientationStyle(this.props.screen)}>
 
-                <View style={[styles.subContainer, this.screenSubContainerOrientationStyle(this.state.screen)]}>
+                <View style={[styles.subContainer, this.screenSubContainerOrientationStyle(this.props.screen)]}>
                     <Card>
                         <Card.Title title={'Timer'}/>
                         <Card.Content style={styles.buttons}>
@@ -227,7 +207,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                     </Card>
                 </View>
 
-                <View style={[styles.subContainer, this.screenSubContainerOrientationStyle(this.state.screen)]}>
+                <View style={[styles.subContainer, this.screenSubContainerOrientationStyle(this.props.screen)]}>
                     <Card>
                         <Card.Title title={'Match'}/>
                         <Card.Content>
