@@ -26,6 +26,7 @@ const MatchDurationTimer = (props: MatchDurationTimerProps) => {
 
     React.useEffect(() => {
         const id = setTimeout(() => {
+            setTimeToPlay(props.duration);
             setTime(now())
         }, 300);
         return () => {
@@ -59,7 +60,14 @@ const MatchDurationTimer = (props: MatchDurationTimerProps) => {
 
     const remainsLabel = (seconds: number) => {
         if (seconds < 0) {
-            return '-';
+
+            if (timeToPlay < 60) {
+                return  timeToPlay + ' min';
+            }
+            const hoursTimeToPlay = Math.floor(timeToPlay / 60);
+            const minutesTimeToPlay = timeToPlay - hoursTimeToPlay * 60;
+            const paddingMinutesTimeToPlay = minutesTimeToPlay < 10 ? '0' : '';
+            return hoursTimeToPlay + 'h' + paddingMinutesTimeToPlay+minutesTimeToPlay;
         }
 
         if (seconds === 0) {

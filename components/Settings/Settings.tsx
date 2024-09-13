@@ -216,7 +216,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                                 <Text style={{textAlign: 'center'}}>{this.getDurationLabel(this.state.matchDurationTimer.duration)}</Text>
                                 <Slider
                                     value={this.state.matchDurationTimer.duration}
-                                    minimumValue={0}
+                                    minimumValue={5}
                                     maximumValue={240}
                                     onValueChange={(duration: number) => this.updateDuration(duration, this.state)}
                                     step={5}
