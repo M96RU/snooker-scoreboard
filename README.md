@@ -7,12 +7,17 @@ After installing new dependency :
 
 Build APK
    ```bash
-   gradle clean assembleRelease bundleRelease > error
-   gradle assembleRelease > ok
-   gradle bundleRelease > ok
+   gradle clean
+   gradle assembleRelease
+   gradle bundleRelease
    ```
 
-Build APK
+Create android folder
+   ```bash
+   npx expo run:android
+   ```
+
+Fix too many files opened
    ```bash
   sudo sysctl -w fs.inotify.max_user_watches=524288
    ```
