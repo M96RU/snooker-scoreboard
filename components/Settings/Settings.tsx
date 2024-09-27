@@ -157,6 +157,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                             <TextInput
                                 style={styles.button}
                                 label={'Casse'}
+                                accessibilityLabel={'Temps de jeu pour la casse'}
                                 editable={this.state.mode === Mode.CUSTOM}
                                 value={this.state.timer.timeToPlayAfterBreak.toString()}
                                 onChangeText={(text: string) => this.updateTimeToPlayAfterBreak(text, this.state)}
@@ -165,6 +166,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                             <TextInput
                                 style={styles.button}
                                 label={'Extension casse'}
+                                accessibilityLabel={'Temps de l\'extension pour la casse'}
                                 editable={this.state.mode === Mode.CUSTOM}
                                 value={this.state.timer.timeToAddAfterBreak.toString()}
                                 onChangeText={(text: string) => this.updateTimeToAddAfterBreak(text, this.state)}
@@ -175,6 +177,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                             <TextInput
                                 style={styles.button}
                                 label={'Visite'}
+                                accessibilityLabel={'Temps de jeu pour la visite'}
                                 editable={this.state.mode === Mode.CUSTOM}
                                 value={this.state.timer.timeToPlayDuringGame.toString()}
                                 onChangeText={(text: string) => this.updateTimeToPlayDuringGame(text, this.state)}
@@ -183,6 +186,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                             <TextInput
                                 style={styles.button}
                                 label={'Extension visite'}
+                                accessibilityLabel={'Temps de l\'extension pour la visite'}
                                 editable={this.state.mode === Mode.CUSTOM}
                                 value={this.state.timer.timeToAddDuringGame.toString()}
                                 onChangeText={(text: string) => this.updateTimeToAddDuringGame(text, this.state)}
