@@ -14,9 +14,7 @@ export default function Live() {
 
     const getMatches = async () => {
         try {
-            const response = await fetch('https://cuescore-dashboard-ackukwiwq-m96rus-projects.vercel.app/api/cuescore/live');
-            // const response = await fetch('http://localhost:5000/api/cuescore/live');
-            // const response = await fetch('https://reactnative.dev/movies.json');
+            const response = await fetch('https://cuescore-dashboard-plqw60fxe-m96rus-projects.vercel.app/api/cuescore/live');
             const json = await response.json();
             setData(json.matches);
         } catch (error) {
