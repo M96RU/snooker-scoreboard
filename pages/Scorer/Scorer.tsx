@@ -101,7 +101,7 @@ class Scorer extends React.Component<ScorerProps, ScorerState> {
                     />
                 </Modal>
                 <Pressable style={styles.buttons} onPress={() => this.displaySettings(this.state)}>
-                    <MaterialIcons name="settings" size={48} color="black"/>
+                    <MaterialIcons name="settings" size={40} color="black"/>
                 </Pressable>
                 <View style={this.getScreenStyle(this.state.screen)}>
                     <View style={this.getItemScreenStyle(this.state.screen)}>
@@ -121,8 +121,10 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     buttons: {
-        marginBottom: 10,
-        marginTop: 20,
+        position: 'absolute',
+        top: -55,
+        right: 10,
+        zIndex: 1,
         alignItems: 'flex-end'
     }
 });

@@ -1,6 +1,11 @@
 # Help
 After installing new dependency :
+- compute permissions and co
+   ```bash
+  npx expo prebuild
+   ```
 
+- Launch the app
    ```bash
    npm run android
    ```
