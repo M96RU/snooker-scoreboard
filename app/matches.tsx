@@ -1,7 +1,8 @@
 import {ActivityIndicator, FlatList, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Tournament from '@/models/tournament';
-import Player from '@/models';
+import Player from '@/models/player';
+import Match from '@/models/match';
 
 interface MatchesProps {
 }
@@ -15,41 +16,52 @@ interface MatchesState {
 export default function Matches() {
     const [isLoading, setLoading] = useState(true);
     const [tournaments, setTournaments] = useState<Tournament[]>([]);
-    const [players, setPlayers] = useState<Player[]>([]);
+    const [matches, setMatches] = useState<Match[]>([]);
+    const [players, setPlayers] = useState<Map<string, Player>>(new Map<string, Player>());
+    const [id, setId] = useState<string>("ok");
 
     const path = 'https://cuescore-dashboard-plqw60fxe-m96rus-projects.vercel.app'
     const cuescoreTournamentPlayersUrl = 'https://api.cuescore.com/tournament/?participants=Participants+list&id='
+    const cuescoreTournamentMatchesUrl = 'https://api.cuescore.com/tournament/?id='
 
-
-    const retrievePlayers = async (tournament: Tournament) => {
-        try {
-            const response = await fetch(cuescoreTournamentPlayersUrl + tournament.id);
-            const json: Player[] = await response.json();
-            setPlayers(json);
-
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    }
 
     const getMatches = async () => {
+
+        let tmpTournaments: Tournament[] | undefined = undefined;
         try {
             const response = await fetch(path + '/api/cuescore');
             const json = await response.json();
-            setTournaments(json.tournaments);
+
+            tmpTournaments = json.tournaments;
+            // setTournaments(json.tournaments);
         } catch (error) {
             console.error(error);
-        } finally {
-            setLoading(false);
         }
 
-        if (tournaments && tournaments.length > 0) {
-            tournaments.forEach(tournament => {
-                retrievePlayers(tournament);
-            });
+        if (tmpTournaments && tmpTournaments.length > 0) {
+            let mapPlayers = new Map<string, Player>();
+            let mapMatches = new Map<string, Match>();
+            for (let tournament of tmpTournaments) {
+                // const response = await fetch(cuescoreTournamentPlayersUrl + tournament.id);
+                // const tmpPlayers: Player[] = await response.json();
+                const response = await fetch(cuescoreTournamentMatchesUrl + tournament.id);
+                const json = await response.json();
+                const cuescoreMatches: Match[] = json.matches;
+                if (cuescoreMatches && cuescoreMatches.length > 0) {
+                    for (let match of cuescoreMatches) {
+                        mapMatches.set(match.matchId, match);
+                    }
+                }
+                // if (tmpPlayers && tmpPlayers.length > 0) {
+                //     for (let player of tmpPlayers) {
+                //         mapPlayers.set(player.playerId, player);
+                //         setId(player.playerId);
+                //     }
+                // }
+            }
+            setMatches(Array.from(mapMatches.values()));
         }
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -74,12 +86,16 @@ export default function Matches() {
                         )}
                     />
 
+                    <Text>OK</Text>
+                    <Text>[{players.get(id)?.playerId}]</Text>
+                    <Text>DAK</Text>
+
                     <FlatList
-                        data={players}
-                        keyExtractor={({playerId}) => playerId}
+                        data={matches}
+                        keyExtractor={({matchId}) => matchId}
                         renderItem={({item}) => (
                             <Text>
-                                {item.playerId}, {item.name}
+                                {item.matchId}, {item.playerA?.name} {item.playerB?.name}
                             </Text>
                         )}
                     />
