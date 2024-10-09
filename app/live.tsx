@@ -1,36 +1,47 @@
 import {ActivityIndicator, FlatList, Text, View} from 'react-native';
-import {useEffect, useState} from 'react';
+import React from 'react';
+import Match from '@/models/match';
 
-type Match = {
-    id: string;
-    playerAscore: string;
-    playerBscore: string;
-    raceTo: string;
-};
 
 export default function Live() {
-    const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState<Match[]>([]);
+    const [time, setTime] = React.useState(0);
+    const [data, setData] = React.useState<Match[] | undefined>(undefined);
 
-    const getMatches = async () => {
-        try {
-            const response = await fetch('https://cuescore-dashboard-plqw60fxe-m96rus-projects.vercel.app/api/cuescore/live');
-            const json = await response.json();
-            setData(json.matches);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
+    const updateMatches = () => {
+        fetch('https://cuescore-dashboard-rmh8j9dua-m96rus-projects.vercel.app/api/cuescore/live')
+            .then(result => result.json())
+            .then(data => {
+                setData(data);
+            }).catch(error => {
+                console.error(error);
+                const waitingMillis = data === undefined ? 5000 : 21000; // waiting more id data is already loaded
+                // force next useEffect call to ensure refresh
+                const id = setTimeout(() => {
+                    setTime(new Date().getTime());
+                }, waitingMillis);
+                return () => {
+                    clearTimeout(id);
+                };
+            }
+        );
+    }
+
+    React.useEffect(() => {
+        if (data === undefined) {
+            updateMatches();
+        } else {
+            const id = setTimeout(() => {
+                updateMatches();
+            }, 31000);
+            return () => {
+                clearTimeout(id);
+            };
         }
-    };
-
-    useEffect(() => {
-        getMatches();
-    }, []);
+    });
 
     return (
         <View style={{flex: 1, padding: 24}}>
-            {isLoading ? (
+            {data === undefined ? (
                 <ActivityIndicator/>
             ) : (
                 <View>
@@ -41,7 +52,7 @@ export default function Live() {
                         keyExtractor={({id}) => id}
                         renderItem={({item}) => (
                             <Text>
-                                {item.id}, {item.playerAscore} ({item.raceTo}) {item.playerBscore}
+                                {item.id}, {item.scoreA} ({item.raceTo}) {item.scoreB}
                             </Text>
                         )}
                     />

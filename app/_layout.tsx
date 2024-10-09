@@ -14,15 +14,6 @@ export default function RootLayout() {
                     )
                 }
             }/>
-            <Tabs.Screen name="matches" options={
-                {
-                    title: 'Matches',
-                    headerShown: false,
-                    tabBarIcon: ({color, focused}) => (
-                        <TabBarIcon name={focused ? 'walk' : 'walk-outline'} color={color}/>
-                    )
-                }
-            }/>
             <Tabs.Screen name="live" options={
                 {
                     title: 'Live',

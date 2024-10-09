@@ -1,5 +1,5 @@
 export default interface Player {
-    playerId: string;
+    id: string;
     name: string;
     firstname: string;
     lastname: string;
