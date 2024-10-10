@@ -2,6 +2,8 @@ import Player from '@/models/player';
 
 export default interface Match {
     id: string;
+    tournamentId: string;
+
     status: string;
     round: number;
     playerA: Player;
@@ -9,4 +11,10 @@ export default interface Match {
     scoreA: number;
     scoreB: number;
     raceTo: number;
+
+    tableId: string;
+    tableName: number;
+
+    starttime: Date;
+    stoptime: Date;
 }

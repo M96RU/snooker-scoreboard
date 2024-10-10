@@ -1,17 +1,18 @@
 import {ActivityIndicator, FlatList, Text, View} from 'react-native';
 import React from 'react';
 import Match from '@/models/match';
-
+import moment from 'moment';
 
 export default function Live() {
     const [time, setTime] = React.useState(0);
     const [data, setData] = React.useState<Match[] | undefined>(undefined);
 
     const updateMatches = () => {
-        fetch('https://cuescore-dashboard-rmh8j9dua-m96rus-projects.vercel.app/api/cuescore/live')
+
+        fetch('https://cuescore-dashboard-kgq4vvbt9-m96rus-projects.vercel.app/api/cuescore/live')
             .then(result => result.json())
             .then(data => {
-                setData(data);
+                setData(data.matches);
             }).catch(error => {
                 console.error(error);
                 const waitingMillis = data === undefined ? 5000 : 21000; // waiting more id data is already loaded
@@ -51,9 +52,12 @@ export default function Live() {
                         data={data}
                         keyExtractor={({id}) => id}
                         renderItem={({item}) => (
-                            <Text>
-                                {item.id}, {item.scoreA} ({item.raceTo}) {item.scoreB}
-                            </Text>
+                            <View>
+                                <Text>
+                                    t:{item.tournamentId} - m:{item.id} - tab{item.tableName} - {item.status} -
+                                    : {item.scoreA} ({item.raceTo}) {item.scoreB} {item.starttime && moment(item.starttime).utc().format('HH:mm')}
+                                </Text>
+                            </View>
                         )}
                     />
                 </View>
