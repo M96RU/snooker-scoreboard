@@ -1,42 +1,89 @@
 import React from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-paper';
-import Match from '@/models/match';
+import {StyleSheet, View} from 'react-native';
+import MatchData from '@/models/match';
 import Organization from '@/models/organization';
-import moment from 'moment/moment';
+import Match from '@/components/Match';
+import {Card, Text} from 'react-native-paper';
 
 export interface MatchesProps {
     organizations: Organization[];
-    matches: Match[];
+    matches: MatchData[];
 }
 
 interface MatchesState {
 }
 
+class LiveData {
+    ffb: MatchData[] = [];
+    lbara: MatchData[] = [];
+    others: MatchData[] = [];
+}
+
 class Matches extends React.Component<MatchesProps, MatchesState> {
+
+    private sortByTableName = (m1: MatchData, m2: MatchData) => {
+        return (m1.tableName ?? 0) - (m2.tableName ?? 0);
+    };
 
     constructor(props: MatchesProps) {
         super(props);
     }
 
     render() {
+        if (this.props.matches.length === 0) {
+            return <Text>Pas de live en ce moment</Text>;
+        }
+
+        const live = new LiveData();
+        for (const match of this.props.matches.sort(this.sortByTableName)) {
+            if (match.organization === 'lbara') {
+                live.lbara.push(match);
+            } else if (match.organization === 'ffb') {
+                live.ffb.push(match);
+            } else {
+                live.others.push(match);
+            }
+        }
         return (
             <View>
-                <Text>Matches</Text>
                 {
-                    this.props.matches.length > 0 &&
-                    <FlatList
-                        data={this.props.matches}
-                        keyExtractor={({id}) => id}
-                        renderItem={({item}) => (
-                            <View>
-                                <Text>
-                                    T:{item.tournamentId} - m:{item.id} - t{item.tableName} - {item.status} -
-                                    : {item.scoreA} ({item.raceTo}) {item.scoreB} {item.starttime && moment(item.starttime).format('HH:mm')}
-                                </Text>
-                            </View>
-                        )}
-                    />
+                    live.ffb.length > 0 &&
+                    <Card>
+                        <Card.Title title={'FF Billard'}/>
+                        <Card.Content>
+                            {
+                                live.ffb.map(match => {
+                                    return <Match match={match}/>
+                                })
+                            }
+                        </Card.Content>
+                    </Card>
+                }
+                {
+                    live.lbara.length > 0 &&
+                    <Card>
+                        <Card.Title title={'LBARA'}/>
+                        <Card.Content>
+                            {
+                                live.lbara.map(match => {
+                                    return <Match match={match}/>
+                                })
+                            }
+                        </Card.Content>
+                    </Card>
+                }
+                {
+                    live.others.length > 0 &&
+                    <Card>
+                        <Card.Title title={'Matches en cours'}/>
+                        <Card.Content>
+                            {
+                                live.others.map(match => {
+                                    return <Match match={match}/>
+                                })
+                            }
+                        </Card.Content>
+                    </Card>
                 }
             </View>
         )

@@ -1,4 +1,4 @@
-import {ActivityIndicator, View} from 'react-native';
+import {ActivityIndicator, ScrollView} from 'react-native';
 import React from 'react';
 import Matches, {MatchesProps} from '@/components/Matches';
 
@@ -8,7 +8,7 @@ export default function Live() {
 
     const updateMatches = () => {
 
-        fetch('https://cuescore-dashboard-6dzhkcmqh-m96rus-projects.vercel.app/api/cuescore/live')
+        fetch('https://cuescore-dashboard-oixmaqo8v-m96rus-projects.vercel.app/api/cuescore/live')
             .then(result => result.json())
             .then(data => {
                 setData(data);
@@ -40,12 +40,12 @@ export default function Live() {
     });
 
     return (
-        <View style={{flex: 1, padding: 24}}>
+        <ScrollView style={{flex: 1, padding: 24}}>
             {data === undefined ? (
                 <ActivityIndicator/>
             ) : (
                 <Matches {...data} />
             )}
-        </View>
+        </ScrollView>
     );
 }

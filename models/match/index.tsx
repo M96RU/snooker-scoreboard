@@ -1,8 +1,9 @@
 import Player from '@/models/player';
 
-export default interface Match {
+export default interface MatchData {
     id: string;
     tournamentId: string;
+    organization: string;
 
     status: string;
     round: number;
