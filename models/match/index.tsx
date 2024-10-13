@@ -3,7 +3,11 @@ import Player from '@/models/player';
 export default interface MatchData {
     id: string;
     tournamentId: string;
+    roundName: string;
+
+    // labels
     organization: string;
+    draw: string;
 
     status: string;
     round: number;
@@ -18,4 +22,5 @@ export default interface MatchData {
 
     starttime: Date;
     stoptime: Date;
+    duration: number;
 }

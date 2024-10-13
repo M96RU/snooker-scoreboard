@@ -8,7 +8,7 @@ export default function Live() {
 
     const updateMatches = () => {
 
-        fetch('https://cuescore-dashboard-oixmaqo8v-m96rus-projects.vercel.app/api/cuescore/live')
+        fetch('https://cuescore-dashboard-l2bcp87r4-m96rus-projects.vercel.app/api/cuescore/live')
             .then(result => result.json())
             .then(data => {
                 setData(data);
@@ -40,7 +40,7 @@ export default function Live() {
     });
 
     return (
-        <ScrollView style={{flex: 1, padding: 24}}>
+        <ScrollView style={{flex: 1, marginTop: 30, marginLeft: 5, marginRight: 5}}>
             {data === undefined ? (
                 <ActivityIndicator/>
             ) : (

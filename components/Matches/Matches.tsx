@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import MatchData from '@/models/match';
 import Organization from '@/models/organization';
 import Match from '@/components/Match';
-import {Card, Text} from 'react-native-paper';
+import {Text} from 'react-native-paper';
 
 export interface MatchesProps {
     organizations: Organization[];
@@ -11,6 +11,7 @@ export interface MatchesProps {
 }
 
 interface MatchesState {
+    date: Date
 }
 
 class LiveData {
@@ -47,43 +48,19 @@ class Matches extends React.Component<MatchesProps, MatchesState> {
         return (
             <View>
                 {
-                    live.ffb.length > 0 &&
-                    <Card>
-                        <Card.Title title={'FF Billard'}/>
-                        <Card.Content>
-                            {
-                                live.ffb.map(match => {
-                                    return <Match match={match}/>
-                                })
-                            }
-                        </Card.Content>
-                    </Card>
+                    live.ffb.map(match => {
+                        return <Match match={match}/>
+                    })
                 }
                 {
-                    live.lbara.length > 0 &&
-                    <Card>
-                        <Card.Title title={'LBARA'}/>
-                        <Card.Content>
-                            {
-                                live.lbara.map(match => {
-                                    return <Match match={match}/>
-                                })
-                            }
-                        </Card.Content>
-                    </Card>
+                    live.lbara.map(match => {
+                        return <Match match={match}/>
+                    })
                 }
                 {
-                    live.others.length > 0 &&
-                    <Card>
-                        <Card.Title title={'Matches en cours'}/>
-                        <Card.Content>
-                            {
-                                live.others.map(match => {
-                                    return <Match match={match}/>
-                                })
-                            }
-                        </Card.Content>
-                    </Card>
+                    live.others.map(match => {
+                        return <Match match={match}/>
+                    })
                 }
             </View>
         )

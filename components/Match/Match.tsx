@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
 import MatchData from '@/models/match';
 import PlayerName from '@/components/PlayerName';
-import moment from 'moment';
+import MatchTimerCountDown from '@/components/MatchTimerCountDown';
 
 interface MatchProps {
     match: MatchData;
@@ -21,12 +21,13 @@ class Match extends React.Component<MatchProps, MatchState> {
     render() {
         const match = this.props.match;
         return (
-            <View>
-                <View style={styles.match}>
-                    <Text style={styles.score}>Table {match.tableName}</Text>
-                    <Text style={styles.score}>{moment(match.starttime).format('HH::mm')}</Text>
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.title}>{match.organization} - {match.draw} - {match.roundName}</Text>
+                    <MatchTimerCountDown style={styles.title} match={match}/>
+                    <Text style={styles.table}>Table {match.tableName}</Text>
                 </View>
-                <View style={styles.match}>
+                <View style={styles.line}>
                     <PlayerName style={[styles.player, styles.playerA]} player={match.playerA}/>
                     <Text style={styles.score}>{match.scoreA}</Text>
                     <Text style={styles.score}>({match.raceTo})</Text>
@@ -39,8 +40,24 @@ class Match extends React.Component<MatchProps, MatchState> {
 }
 
 const styles = StyleSheet.create({
-    match: {
+    container: {
+        marginBottom: 10,
+    },
+    header: {
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        backgroundColor: '#172266',
         flexDirection: 'row',
+        paddingLeft: 20,
+        paddingRight: 20
+    },
+    line: {
+        flexDirection: 'row',
+        borderColor: '#172266',
+        backgroundColor: '#467DF7',
+        borderWidth: 2,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
     },
     player: {
         flex: 7,
@@ -51,6 +68,13 @@ const styles = StyleSheet.create({
     },
     playerB: {
         textAlign: 'left',
+    },
+    title: {
+        color: 'white',
+    },
+    table: {
+        color: 'white',
+        textAlign: 'right'
     },
     score: {
         flex: 1,
