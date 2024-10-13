@@ -49,17 +49,17 @@ class Matches extends React.Component<MatchesProps, MatchesState> {
             <View>
                 {
                     live.ffb.map(match => {
-                        return <Match match={match}/>
+                        return <Match key={match.id} match={match}/>
                     })
                 }
                 {
                     live.lbara.map(match => {
-                        return <Match match={match}/>
+                        return <Match key={match.id} match={match}/>
                     })
                 }
                 {
                     live.others.map(match => {
-                        return <Match match={match}/>
+                        return <Match key={match.id} match={match}/>
                     })
                 }
             </View>
