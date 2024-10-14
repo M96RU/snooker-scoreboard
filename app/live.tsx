@@ -8,7 +8,7 @@ export default function Live() {
 
     const updateMatches = () => {
 
-        fetch('https://cuescore-dashboard-b1rmhvh7s-m96rus-projects.vercel.app/api/cuescore/live')
+        fetch('https://cuescore-dashboard-fpeqxpww2-m96rus-projects.vercel.app/api/cuescore/live')
             .then(result => result.json())
             .then(data => {
                 setData(data);

@@ -4,6 +4,7 @@ export default interface MatchData {
     id: string;
     tournamentId: string;
     roundName: string;
+    scorerUrl: string;
 
     // labels
     organization: string;
