@@ -4,6 +4,7 @@ import {Text} from 'react-native-paper';
 import MatchData from '@/models/match';
 import WebView from 'react-native-webview';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import MatchTimerCountDown from '@/components/MatchTimerCountDown';
 
 interface MatchProps {
     match: MatchData | undefined;
@@ -33,6 +34,7 @@ class MatchDetail extends React.Component<MatchProps, MatchState> {
                 <Pressable style={styles.closeButton} onPress={() => this.props.onClose()}>
                     <MaterialIcons name="close" size={32} color={'white'}/>
                 </Pressable>
+                <MatchTimerCountDown style={styles.matchDuration} match={match} />
                 {
                     match.scorerUrl &&
                     <WebView
@@ -53,6 +55,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 5,
         top: 5,
+        zIndex: 1
+    },
+    matchDuration: {
+        position: 'absolute',
+        left: 5,
+        bottom: 5,
         zIndex: 1
     },
     webview: {}
