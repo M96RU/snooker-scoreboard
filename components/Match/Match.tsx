@@ -24,7 +24,7 @@ class Match extends React.Component<MatchProps, MatchState> {
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Text style={styles.title}>{match.organization} - {match.draw} - {match.roundName}</Text>
-                    <MatchTimerCountDown style={styles.title} match={match}/>
+                    <MatchTimerCountDown style={styles.timer} match={match}/>
                     <Text style={styles.table}>Table {match.tableName}</Text>
                 </View>
                 <View style={styles.line}>
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 10,
         backgroundColor: '#172266',
         flexDirection: 'row',
-        paddingLeft: 20,
-        paddingRight: 20
+        paddingLeft: 10,
+        paddingRight: 10
     },
     line: {
         flexDirection: 'row',
@@ -70,9 +70,16 @@ const styles = StyleSheet.create({
         textAlign: 'left',
     },
     title: {
+        flex: 4,
         color: 'white',
     },
+    timer: {
+        flex: 1,
+        color: 'white',
+        textAlign: 'right'
+    },
     table: {
+        flex: 1,
         color: 'white',
         textAlign: 'right'
     },
