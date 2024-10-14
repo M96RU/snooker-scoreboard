@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Modal, Pressable, StyleSheet, View} from 'react-native';
 import MatchData from '@/models/match';
 import Organization from '@/models/organization';
 import Match from '@/components/Match';
 import {Text} from 'react-native-paper';
+import MatchDetail from '@/components/MatchDetail';
 
 export interface MatchesProps {
     organizations: Organization[];
@@ -11,23 +12,23 @@ export interface MatchesProps {
 }
 
 interface MatchesState {
-    date: Date
-}
-
-class LiveData {
-    ffb: MatchData[] = [];
-    lbara: MatchData[] = [];
-    others: MatchData[] = [];
+    tableId: string | undefined,
 }
 
 class Matches extends React.Component<MatchesProps, MatchesState> {
 
     private sortByTableName = (m1: MatchData, m2: MatchData) => {
-        return (m1.tableName ?? 0) - (m2.tableName ?? 0);
+        if (m1.organization === m2.organization) {
+            return (m1.tableName ?? 0) - (m2.tableName ?? 0);
+        }
+        return (m1.organization ?? '').localeCompare(m2.organization ?? '');
     };
 
     constructor(props: MatchesProps) {
         super(props);
+        this.state = {
+            tableId: undefined
+        };
     }
 
     render() {
@@ -35,31 +36,22 @@ class Matches extends React.Component<MatchesProps, MatchesState> {
             return <Text>Pas de live en ce moment</Text>;
         }
 
-        const live = new LiveData();
-        for (const match of this.props.matches.sort(this.sortByTableName)) {
-            if (match.organization === 'lbara') {
-                live.lbara.push(match);
-            } else if (match.organization === 'ffb') {
-                live.ffb.push(match);
-            } else {
-                live.others.push(match);
-            }
-        }
         return (
             <View>
+                <Modal visible={this.state.tableId != undefined}>
+                    {
+                        this.state.tableId != undefined &&
+                        <MatchDetail
+                            match={this.props.matches.find(m => this.state.tableId === m.tableId)}
+                            onClose={() => this.setState({tableId: undefined})}
+                        />
+                    }
+                </Modal>
                 {
-                    live.ffb.map(match => {
-                        return <Match key={match.id} match={match}/>
-                    })
-                }
-                {
-                    live.lbara.map(match => {
-                        return <Match key={match.id} match={match}/>
-                    })
-                }
-                {
-                    live.others.map(match => {
-                        return <Match key={match.id} match={match}/>
+                    this.props.matches.sort(this.sortByTableName).map(match => {
+                        return <Pressable key={match.id} onPress={() => this.setState({tableId: match.tableId})}>
+                            <Match match={match}/>
+                        </Pressable>
                     })
                 }
             </View>
