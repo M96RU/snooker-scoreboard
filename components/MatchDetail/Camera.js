@@ -9,7 +9,19 @@ export interface Props {
 export function Camera(props: Props) {
     const [permission, requestPermission] = useCameraPermissions();
 
-    const [data, setData] = React.useState('not initialized');
+    /* To be removed *
+    React.useEffect(() => {
+        const id = setTimeout(() => {
+            props.close('https://cuescore.com/scoreboard/?code=de108f97');
+        }, 5000);
+        return () => {
+            clearTimeout(id);
+        };
+    });
+    /* To be removed */
+
+
+
 
     if (!permission) {
         // Camera permissions are still loading.
@@ -26,6 +38,8 @@ export function Camera(props: Props) {
         );
     }
 
+
+
     return (
         <View style={styles.container}>
             <CameraView
@@ -33,9 +47,8 @@ export function Camera(props: Props) {
                 barcodeScannerSettings={{
                     barcodeTypes: ["qr"],
                 }}
-                onBarcodeScanned={(ok: BarcodeScanningResult) => setData(ok.data)}
+                onBarcodeScanned={(ok: BarcodeScanningResult) => props.close(ok.data)}
             />
-            <Text>{data}</Text>
         </View>
     );
 }

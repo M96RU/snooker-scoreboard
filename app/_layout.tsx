@@ -28,6 +28,13 @@ export default function DrawerLayout() {
                     <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color}/>
                 )
             }}/>
+            <Drawer.Screen name={'cuescore'} options={{
+                drawerLabel: 'Cuescore',
+                headerTitle: 'Cuescore Scorer',
+                drawerIcon: ({color, focused}) => (
+                    <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color}/>
+                )
+            }}/>
         </Drawer>
     </GestureHandlerRootView>
 }
