@@ -1,10 +1,12 @@
 import React from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import {Modal, Pressable, StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
 import MatchData from '@/models/match';
 import WebView from 'react-native-webview';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MatchTimerCountDown from '@/components/MatchTimerCountDown';
+import {Camera} from '@/components/MatchDetail/Camera';
+import {state} from 'sucrase/dist/types/parser/traverser/base';
 
 interface MatchProps {
     match: MatchData | undefined;
@@ -12,12 +14,16 @@ interface MatchProps {
 }
 
 interface MatchState {
+    data: string | undefined;
 }
 
 class MatchDetail extends React.Component<MatchProps, MatchState> {
 
     constructor(props: MatchProps) {
         super(props);
+        this.state = {
+            data: undefined
+        }
     }
 
     render() {
@@ -29,12 +35,27 @@ class MatchDetail extends React.Component<MatchProps, MatchState> {
             </View>
         }
 
+        if (match.draw) {
+
+            return <Camera close={(u: string) => this.setState({data: u})}/>
+
+            /*
+            return <View>
+                <Modal visible={this.state.data != undefined}>
+                    <Camera close={(u: string) => this.setState({data: u})}/>
+                </Modal>
+                <Text>{this.state.data}</Text>
+            </View>
+
+             */
+        }
+
         return (
             <View style={styles.container}>
                 <Pressable style={styles.closeButton} onPress={() => this.props.onClose()}>
                     <MaterialIcons name="close" size={32} color={'white'}/>
                 </Pressable>
-                <MatchTimerCountDown style={styles.matchDuration} match={match} />
+                <MatchTimerCountDown style={styles.matchDuration} match={match}/>
                 {
                     match.scorerUrl &&
                     <WebView
