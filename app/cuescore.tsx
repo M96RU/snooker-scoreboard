@@ -14,6 +14,17 @@ export default function CuescoreScorer() {
     const [loading, setLoading] = React.useState(false);
     const [match, setMatch] = React.useState<MatchData>();
 
+    React.useEffect(() => {
+        if (match) {
+            const id = setTimeout(() => {
+                retrieveMatch();
+            }, 10000);
+            return () => {
+                clearTimeout(id);
+            };
+        }
+    });
+
     if (!url) {
         return <View style={{flex: 1}}>
             <Camera close={setUrl}/>
