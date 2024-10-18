@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, Pressable, StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import MatchData from '@/models/match';
 import Organization from '@/models/organization';
 import Match from '@/components/Match';
@@ -12,7 +12,7 @@ export interface MatchesProps {
 }
 
 interface MatchesState {
-    tableId: string | undefined,
+    match: MatchData | undefined,
 }
 
 class Matches extends React.Component<MatchesProps, MatchesState> {
@@ -27,29 +27,27 @@ class Matches extends React.Component<MatchesProps, MatchesState> {
     constructor(props: MatchesProps) {
         super(props);
         this.state = {
-            tableId: undefined
+            match: undefined
         };
     }
 
     render() {
+
+        const match = this.state.match;
+
+        if (match) {
+            return <MatchDetail match={match} onClose={() => this.setState({match: undefined})}/>
+        }
+
         if (this.props.matches.length === 0) {
             return <Text style={styles.noLive}>Pas de live</Text>;
         }
 
         return (
             <View>
-                <Modal visible={this.state.tableId != undefined}>
-                    {
-                        this.state.tableId != undefined &&
-                        <MatchDetail
-                            match={this.props.matches.find(m => this.state.tableId === m.tableId)}
-                            onClose={() => this.setState({tableId: undefined})}
-                        />
-                    }
-                </Modal>
                 {
                     this.props.matches.sort(this.sortByTableName).map(match => {
-                        return <Pressable key={match.id} onPress={() => this.setState({tableId: match.tableId})}>
+                        return <Pressable key={match.id} onPress={() => this.setState({match: match})}>
                             <Match match={match}/>
                         </Pressable>
                     })
