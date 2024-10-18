@@ -15,6 +15,13 @@ export default function DrawerLayout() {
             drawerActiveTintColor: 'white',
             drawerLabelStyle: {marginLeft: -20}
         }}>
+            <Drawer.Screen name={'index'} options={{
+                drawerLabel: 'Home',
+                headerTitle: 'Timer 8 Pool - Billard en direct',
+                drawerIcon: ({color, focused}) => (
+                    <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color}/>
+                )
+            }}/>
             <Drawer.Screen name={'live'} options={{
                 drawerLabel: 'Live',
                 headerTitle: 'Live',
@@ -22,18 +29,18 @@ export default function DrawerLayout() {
                     <TabBarIcon name={focused ? 'walk' : 'walk-outline'} color={color}/>
                 )
             }}/>
-            <Drawer.Screen name={'index'} options={{
-                drawerLabel: 'Index',
-                headerTitle: 'Index',
-                drawerIcon: ({color, focused}) => (
-                    <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color}/>
-                )
-            }}/>
             <Drawer.Screen name={'cuescore'} options={{
                 drawerLabel: 'Cuescore Scorer',
                 headerTitle: 'Cuescore Scorer',
                 drawerIcon: ({color}) => (
                     <MaterialIcons size={28} name={'qr-code-scanner'} color={color}/>
+                )
+            }}/>
+            <Drawer.Screen name={'timer'} options={{
+                drawerLabel: 'Timer',
+                headerTitle: 'Timer',
+                drawerIcon: ({color, focused}) => (
+                    <MaterialIcons size={28} name={focused ? 'hourglass-bottom' : 'hourglass-top'} color={color}/>
                 )
             }}/>
         </Drawer>

@@ -1,11 +1,11 @@
 import React from 'react';
-import {DrawerContentScrollView, DrawerItem, DrawerItemList} from '@react-navigation/drawer';
+import {DrawerContentScrollView, DrawerItemList} from '@react-navigation/drawer';
 import {Image, View} from 'react-native';
 import {Text} from 'react-native-paper';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export default function CustomMenu(props: any) {
-    const {top, bottom} = useSafeAreaInsets();
+    const {bottom} = useSafeAreaInsets();
     return (
         <View style={{flex: 1}}>
 
@@ -23,14 +23,14 @@ export default function CustomMenu(props: any) {
                         fontSize: 18,
                         paddingTop: 10,
                         color: '#5363df'
-                    }}>Live Snooker</Text>
+                    }}>Billard en direct</Text>
                 </View>
                 <View style={{
                     backgroundColor: 'white',
                     paddingTop: 10
                 }}>
                     <DrawerItemList {...props} />
-                    <DrawerItem label={'logout'} onPress={() => console.log('Logout')} />
+                    {/*<DrawerItem label={'logout'} onPress={() => console.log('Logout')} />*/}
                 </View>
             </DrawerContentScrollView>
 
@@ -40,7 +40,7 @@ export default function CustomMenu(props: any) {
                 padding: 20,
                 paddingBottom: 20 + bottom
             }}>
-                <Text>Footer</Text>
+                <Text>Timer 8 Pool - Billard en direct</Text>
             </View>
         </View>
     )
