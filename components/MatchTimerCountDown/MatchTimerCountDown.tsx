@@ -1,4 +1,4 @@
-import {Text} from 'react-native';
+import {Text} from 'react-native-paper';
 import MatchData from '@/models/match';
 import moment from 'moment/moment';
 import React from 'react';
@@ -39,8 +39,12 @@ export default function MatchTimerCountDown(props: MatchTimerCountDownProps) {
 
     const match = props.match;
 
+    if (!match.starttime) {
+        return <Text style={props.style}>Chrono pas lancé</Text>
+    }
+
     if (match.stoptime) {
-        return null;
+        return <Text style={props.style}>Chrono arrêté</Text>;
     }
 
     const [time, setTime] = React.useState(moment.now());
@@ -60,6 +64,6 @@ export default function MatchTimerCountDown(props: MatchTimerCountDownProps) {
     const seconds = match.duration * 60 - diffSeconds;
     const label = remainsLabel(seconds);
 
-    return <Text style={props.style}>{label}</Text>
+    return <Text style={props.style}  variant="displayLarge">{label}</Text>
 }
 

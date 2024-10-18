@@ -1,17 +1,18 @@
 import {BarcodeScanningResult, CameraView, useCameraPermissions} from 'expo-camera';
-import React from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
 
 export interface Props {
     close: (data: string) => void
 }
 
-export function Camera(props: Props) {
+export default function CuescoreScaner(props: Props) {
     const [permission, requestPermission] = useCameraPermissions();
 
-    /* To be removed *
+    /* To be removed * /
     React.useEffect(() => {
         const id = setTimeout(() => {
+            console.log('Force url');
             props.close('https://cuescore.com/scoreboard/?code=de108f97');
         }, 5000);
         return () => {

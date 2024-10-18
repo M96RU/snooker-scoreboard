@@ -1,12 +1,11 @@
 import React from 'react';
-import {Modal, Pressable, StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
 import MatchData from '@/models/match';
 import WebView from 'react-native-webview';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MatchTimerCountDown from '@/components/MatchTimerCountDown';
-import {Camera} from '@/components/MatchDetail/Camera';
-import {state} from 'sucrase/dist/types/parser/traverser/base';
+import CuescoreScaner from '@/components/CuescoreScanner';
 
 interface MatchProps {
     match: MatchData | undefined;
@@ -37,7 +36,7 @@ class MatchDetail extends React.Component<MatchProps, MatchState> {
 
         if (match.draw) {
 
-            return <Camera close={(u: string) => this.setState({data: u})}/>
+            return <CuescoreScaner close={(u: string) => this.setState({data: u})}/>
 
             /*
             return <View>
