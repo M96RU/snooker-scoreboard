@@ -1,9 +1,7 @@
-import {StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-paper';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import React from 'react';
 import MatchData from '@/models/match';
 import MatchTimerCountDown from '@/components/MatchTimerCountDown';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export interface Props {
     url: string
@@ -61,7 +59,7 @@ export default function CuescoreScorerHelper(props: Props) {
 
     if (loading) {
         return <View>
-            <Text style={styles.timer}>Chargement...</Text>
+            <ActivityIndicator/>
         </View>
     }
 

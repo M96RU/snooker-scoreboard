@@ -6,6 +6,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import CustomMenu from '@/components/CustomMenu';
 import {TabBarIcon} from '@/components/navigation/TabBarIcon';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import {Image} from 'react-native';
 
 export default function DrawerLayout() {
     return <GestureHandlerRootView style={{flex: 1}}>
@@ -22,11 +23,18 @@ export default function DrawerLayout() {
                     <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color}/>
                 )
             }}/>
-            <Drawer.Screen name={'live'} options={{
-                drawerLabel: 'Live',
-                headerTitle: 'Live',
-                drawerIcon: ({color, focused}) => (
-                    <TabBarIcon name={focused ? 'walk' : 'walk-outline'} color={color}/>
+            <Drawer.Screen name={'ffb'} options={{
+                drawerLabel: 'FFB - TN',
+                headerTitle: 'Fédération Française de Billard',
+                drawerIcon: () => (
+                    <Image source={require('@/assets/images/ffb.png')}  style={{width: 28, height: 28}} />
+                )
+            }}/>
+            <Drawer.Screen name={'lbara'} options={{
+                drawerLabel: 'LBARA - TR',
+                headerTitle: 'Ligue Auvergne-Rhône-Alpes',
+                drawerIcon: () => (
+                    <Image source={require('@/assets/images/lbara.png')}  style={{width: 28, height: 28}} />
                 )
             }}/>
             <Drawer.Screen name={'cuescore'} options={{

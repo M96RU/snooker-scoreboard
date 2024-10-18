@@ -2,13 +2,13 @@ import {ActivityIndicator, ScrollView} from 'react-native';
 import React from 'react';
 import Matches, {MatchesProps} from '@/components/Matches';
 
-export default function Live() {
+export default function Live(organization: string) {
     const [time, setTime] = React.useState(0);
     const [data, setData] = React.useState<MatchesProps | undefined>(undefined);
 
     const updateMatches = () => {
 
-        fetch('https://cuescore-dashboard-fpeqxpww2-m96rus-projects.vercel.app/api/cuescore/live')
+        fetch('https://cuescore-dashboard-gevi5q5b0-m96rus-projects.vercel.app/api/cuescore/live?organization=' + organization)
             .then(result => result.json())
             .then(data => {
                 setData(data);

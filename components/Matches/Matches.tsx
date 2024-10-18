@@ -33,7 +33,7 @@ class Matches extends React.Component<MatchesProps, MatchesState> {
 
     render() {
         if (this.props.matches.length === 0) {
-            return <Text>Pas de live en ce moment</Text>;
+            return <Text style={styles.noLive}>Pas de live</Text>;
         }
 
         return (
@@ -66,6 +66,9 @@ const styles = StyleSheet.create({
     },
     item: {
         margin: 10,
+    },
+    noLive: {
+        textAlign: 'center',
     },
     buttons: {
         flexDirection: 'row',
