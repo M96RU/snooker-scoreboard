@@ -7,6 +7,7 @@ import {TextStyle} from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 interface MatchTimerCountDownProps {
     style?: StyleProp<TextStyle> | undefined,
+    large?: boolean,
     match: MatchData
 }
 
@@ -64,6 +65,6 @@ export default function MatchTimerCountDown(props: MatchTimerCountDownProps) {
     const seconds = match.duration * 60 - diffSeconds;
     const label = remainsLabel(seconds);
 
-    return <Text style={props.style}  variant="displayLarge">{label}</Text>
+    return <Text style={props.style} variant={props.large ? "displayLarge" : "labelSmall"}>{label}</Text>
 }
 

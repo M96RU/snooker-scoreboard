@@ -5,6 +5,7 @@ import {Drawer} from 'expo-router/drawer';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import CustomMenu from '@/components/CustomMenu';
 import {TabBarIcon} from '@/components/navigation/TabBarIcon';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function DrawerLayout() {
     return <GestureHandlerRootView style={{flex: 1}}>
@@ -29,10 +30,10 @@ export default function DrawerLayout() {
                 )
             }}/>
             <Drawer.Screen name={'cuescore'} options={{
-                drawerLabel: 'Cuescore',
+                drawerLabel: 'Cuescore Scorer',
                 headerTitle: 'Cuescore Scorer',
-                drawerIcon: ({color, focused}) => (
-                    <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color}/>
+                drawerIcon: ({color}) => (
+                    <MaterialIcons size={28} name={'qr-code-scanner'} color={color}/>
                 )
             }}/>
         </Drawer>

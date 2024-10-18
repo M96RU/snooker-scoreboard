@@ -62,12 +62,12 @@ const MatchDurationTimer = (props: MatchDurationTimerProps) => {
         if (seconds < 0) {
 
             if (timeToPlay < 60) {
-                return  timeToPlay + ' min';
+                return timeToPlay + ' min';
             }
             const hoursTimeToPlay = Math.floor(timeToPlay / 60);
             const minutesTimeToPlay = timeToPlay - hoursTimeToPlay * 60;
             const paddingMinutesTimeToPlay = minutesTimeToPlay < 10 ? '0' : '';
-            return hoursTimeToPlay + 'h' + paddingMinutesTimeToPlay+minutesTimeToPlay;
+            return hoursTimeToPlay + 'h' + paddingMinutesTimeToPlay + minutesTimeToPlay;
         }
 
         if (seconds === 0) {
