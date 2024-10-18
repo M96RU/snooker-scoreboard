@@ -66,7 +66,7 @@ export default function CuescoreScorerHelper(props: Props) {
     if (match) {
         return (
             <View>
-                <MatchTimerCountDown style={styles.timer} match={match}/>
+                <MatchTimerCountDown style={styles.timer} large={true} match={match}/>
             </View>
         );
     }
