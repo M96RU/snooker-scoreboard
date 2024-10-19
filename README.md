@@ -31,7 +31,11 @@ Deploy Store
 ```bash
 eas build --platform android
 ```
-
+Build web
+```bash
+npx expo export --platform web
+npx serve dist
+```
 
 # Welcome to your Expo app 👋
 
