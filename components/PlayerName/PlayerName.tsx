@@ -23,6 +23,7 @@ class PlayerName extends React.Component<PlayerNameMatchProps, PlayerNameState> 
 
     render() {
         const player = this.props.player;
+
         return (
             <Text variant={this.props.variant} style={[styles.player, this.props.style]}>{player.name}</Text>
         )
