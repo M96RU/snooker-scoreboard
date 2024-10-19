@@ -4,6 +4,7 @@ import moment from 'moment/moment';
 import React from 'react';
 import {StyleProp} from 'react-native/Libraries/StyleSheet/StyleSheet';
 import {TextStyle} from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import {Constants} from '@/constants/Constants';
 
 interface MatchTimerCountDownProps {
     style?: StyleProp<TextStyle> | undefined,
@@ -50,8 +51,8 @@ export default function MatchTimerCountDown(props: MatchTimerCountDownProps) {
         return <Text variant={variant} style={props.style}>A VENIR</Text>
     }
 
-    if (match.stoptime) {
-        return <Text variant={variant} style={props.style}>Chrono arrêté</Text>;
+    if (match.status == Constants.MATCH_STATUS.FINISHED) {
+        return <Text variant={variant} style={props.style}>TERMINE</Text>;
     }
 
     const [time, setTime] = React.useState(moment.now());
