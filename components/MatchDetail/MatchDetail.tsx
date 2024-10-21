@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
         marginLeft: 40,
         marginRight: 40,
         textAlign: 'center',
-        backgroundColor: 'red',
-        borderRadius: 25
+        backgroundColor: '#dde3fe',
+        borderRadius: 15
     },
     header: {
         backgroundColor: '#5363df',

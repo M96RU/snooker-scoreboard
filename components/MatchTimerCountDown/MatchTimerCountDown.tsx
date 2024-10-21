@@ -40,11 +40,14 @@ const remainsLabel = (seconds: number,) => {
 export default function MatchTimerCountDown(props: MatchTimerCountDownProps) {
 
     const match = props.match;
-    const variant = props.large ? 'displayLarge' : 'labelSmall';
 
     if (match.duration == 0) {
-        return match.starttime ? <Text variant={variant} style={props.style}>{moment(match.starttime).format('HH:mm')}</Text> : null;
+        const hours = moment(match.starttime).format('HH');
+        const minutes = moment(match.starttime).format('mm');
+        return match.starttime ? <Text variant={'displaySmall'} style={props.style}>depuis {hours}h{minutes}</Text> : null;
     }
+
+    const variant = props.large ? 'displayLarge' : 'labelSmall';
 
     if (!match.starttime) {
         return <Text variant={variant} style={props.style}>A VENIR</Text>
