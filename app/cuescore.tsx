@@ -1,5 +1,5 @@
 import {Pressable, StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-paper';
+import {Button, Text, TextInput} from 'react-native-paper';
 import React from 'react';
 import WebView from 'react-native-webview';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -8,6 +8,7 @@ import CuescoreScaner from '@/components/CuescoreScanner';
 
 export default function CuescoreScorer() {
 
+    const [code, setCode] = React.useState<string>();
     const [url, setUrl] = React.useState<string>();
     const [error, setError] = React.useState<string>();
 
@@ -17,6 +18,9 @@ export default function CuescoreScorer() {
         } else {
             setError('QRCode non compatible');
         }
+    }
+    const submitCode = () => {
+        setUrl('https://cuescore.com/scoreboard/?code=' + code);
     }
 
     const close = () => {
@@ -35,7 +39,12 @@ export default function CuescoreScorer() {
             </View>
         </View>
     } else {
+
         return <View style={styles.container}>
+            <View style={styles.codeForm}>
+                <TextInput label='Code de la table' value={code} onChangeText={setCode}/>
+                <Button mode={'contained-tonal'} onPress={submitCode}>Valider</Button>
+            </View>
             <CuescoreScaner close={updateUrl}/>
             {error && <Text style={{flex: 0.1}}>{error}</Text>}
         </View>
@@ -46,6 +55,9 @@ export default function CuescoreScorer() {
 const styles = StyleSheet.create({
     container: {
         flex: 1
+    },
+    codeForm: {
+        flex: 0.2
     },
     closeButton: {
         position: 'absolute',
