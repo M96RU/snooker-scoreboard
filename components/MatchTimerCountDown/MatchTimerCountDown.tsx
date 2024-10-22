@@ -44,7 +44,8 @@ export default function MatchTimerCountDown(props: MatchTimerCountDownProps) {
     if (match.duration == 0) {
         const hours = moment(match.starttime).format('HH');
         const minutes = moment(match.starttime).format('mm');
-        return match.starttime ? <Text variant={'displaySmall'} style={props.style}>depuis {hours}h{minutes}</Text> : null;
+        return match.starttime ? <Text variant={props.large ? 'displaySmall' : 'labelSmall'}
+                                       style={props.style}>{hours}h{minutes}</Text> : null;
     }
 
     const variant = props.large ? 'displayLarge' : 'labelSmall';
