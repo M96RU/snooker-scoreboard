@@ -152,27 +152,36 @@ const Timer = (props: TimerProps) => {
     return (
         <Card>
             <Card.Content>
-                <Text style={counterStyle} variant="displayLarge">{remains === 0 ? 'FAUTE' : (remains ? remains : '-')}</Text>
+                <Text style={counterStyle}
+                      variant="displayLarge">{remains === 0 ? 'FAUTE' : (remains ? remains : '-')}</Text>
                 <View style={styles.buttons}>
-                    <Pressable onPress={start} disabled={!breakAllowed}>
-                        <MaterialIcons name="play-arrow" size={64} color={breakAllowed ? "black" : "grey"}/>
+                    <Pressable accessibilityLabel={'Commencer'} onPress={start} disabled={!breakAllowed}>
+                        <MaterialIcons name="play-arrow" size={64} color={breakAllowed ? 'black' : 'grey'}/>
                     </Pressable>
-                    <Pressable onPress={restart} disabled={!nextAllowed}>
-                        <MaterialIcons name="stop" size={64} color={nextAllowed ? "black" : "grey"}/>
+                    <Pressable accessibilityLabel={'Stop'} onPress={restart} disabled={!nextAllowed}>
+                        <MaterialIcons name="stop" size={64} color={nextAllowed ? 'black' : 'grey'}/>
                     </Pressable>
-                    <Pressable onPress={pause} disabled={breakAllowed}>
-                        <MaterialIcons name="pause" size={64} color={breakAllowed ? "grey" : "black"}/>
+                    <Pressable accessibilityLabel={'Pause'} onPress={pause} disabled={breakAllowed}>
+                        <MaterialIcons name="pause" size={64} color={breakAllowed ? 'grey' : 'black'}/>
                     </Pressable>
-                    <Pressable onPress={next} disabled={!nextAllowed}>
-                        <MaterialIcons name="skip-next" size={64} color={nextAllowed ? "black" : "grey"}/>
+                    <Pressable accessibilityLabel={'Suivant'} onPress={next} disabled={!nextAllowed}>
+                        <MaterialIcons name="skip-next" size={64} color={nextAllowed ? 'black' : 'grey'}/>
                     </Pressable>
                 </View>
             </Card.Content>
-            <Card.Actions style={[styles.item, {backgroundColor: theme.colors.surfaceVariant, borderRadius: 10, flexDirection: 'column', marginLeft: 20, marginRight: 20}]}>
+            <Card.Actions style={[styles.item, {
+                backgroundColor: theme.colors.surfaceVariant,
+                borderRadius: 10,
+                flexDirection: 'column',
+                marginLeft: 20,
+                marginRight: 20
+            }]}>
                 <Text>Extensions</Text>
                 <View style={{flexDirection: 'row'}}>
-                    <Button style={[styles.splitWidth, {margin: 3}]} mode="contained" onPress={extensionA} disabled={!extensionAAllowed}>{props.playerA}</Button>
-                    <Button style={[styles.splitWidth, {margin: 3}]} mode="contained" onPress={extensionB} disabled={!extensionBAllowed}>{props.playerB}</Button>
+                    <Button style={[styles.splitWidth, {margin: 3}]} mode="contained" onPress={extensionA}
+                            disabled={!extensionAAllowed}>{props.playerA}</Button>
+                    <Button style={[styles.splitWidth, {margin: 3}]} mode="contained" onPress={extensionB}
+                            disabled={!extensionBAllowed}>{props.playerB}</Button>
                 </View>
             </Card.Actions>
         </Card>
@@ -188,7 +197,7 @@ const styles = StyleSheet.create({
     },
     buttons: {
         flexDirection: 'row',
-        justifyContent:'center'
+        justifyContent: 'center'
     },
     counter: {
         textAlign: 'center',

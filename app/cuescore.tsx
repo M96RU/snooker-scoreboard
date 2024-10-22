@@ -32,8 +32,8 @@ export default function CuescoreScorer() {
 
     if (url) {
         return <View style={styles.container}>
-            <Pressable style={styles.closeButton} onPress={close}>
-                <MaterialIcons name="close" size={32} color={'white'}/>
+            <Pressable accessibilityLabel={'Fermer'} style={styles.closeButton} onPress={close}>
+                <MaterialIcons name="close" size={40} color={'white'}/>
             </Pressable>
             <WebView source={{uri: url}}/>
             <View style={{flex: 0.3}}>
@@ -44,8 +44,14 @@ export default function CuescoreScorer() {
 
         return <View style={styles.container}>
             <View style={styles.form}>
-                <TextInput style={styles.formInput} label="Code de la table" value={code} onChangeText={setCode}/>
-                <Pressable style={styles.formSubmit} onPress={submitCode}>
+                <TextInput
+                    style={styles.formInput}
+                    label="Code de la table"
+                    accessibilityLabel={'Code de la table'}
+                    value={code}
+                    onChangeText={setCode}
+                />
+                <Pressable accessibilityLabel={'Valider'} style={styles.formSubmit} onPress={submitCode}>
                     <MaterialIcons name="double-arrow" size={50} color={'black'}/>
                 </Pressable>
             </View>

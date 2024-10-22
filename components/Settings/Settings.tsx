@@ -197,6 +197,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                             <TextInput
                                 style={styles.button}
                                 label={'Alerte'}
+                                accessibilityLabel={'Temps de l\'alerte'}
                                 editable={this.state.mode === Mode.CUSTOM}
                                 value={this.state.timer.alertUnderSeconds.toString()}
                                 onChangeText={(text: string) => this.updateAlertUnderSeconds(text, this.state)}
@@ -204,9 +205,12 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                             />
                         </Card.Content>
                         <Card.Actions>
-                            <Button mode={'text'} disabled={this.state.mode === Mode.CUSTOM} onPress={() => this.edit(this.state)}>Modifier</Button>
-                            <Button mode={'text'} disabled={this.state.mode === Mode.FBEP} onPress={() => this.switchToFBEP(this.state)}>FBEP</Button>
-                            <Button mode={'text'} disabled={this.state.mode === Mode.FFB} onPress={() => this.switchToFFB(this.state)}>FFB</Button>
+                            <Button mode={'text'} disabled={this.state.mode === Mode.CUSTOM}
+                                    onPress={() => this.edit(this.state)}>Modifier</Button>
+                            <Button mode={'text'} disabled={this.state.mode === Mode.FBEP}
+                                    onPress={() => this.switchToFBEP(this.state)}>FBEP</Button>
+                            <Button mode={'text'} disabled={this.state.mode === Mode.FFB}
+                                    onPress={() => this.switchToFFB(this.state)}>FFB</Button>
                         </Card.Actions>
                     </Card>
                 </View>
@@ -217,23 +221,37 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                         <Card.Content>
 
                             <View>
-                                <Text style={{textAlign: 'center'}}>{this.getDurationLabel(this.state.matchDurationTimer.duration)}</Text>
+                                <Text
+                                    style={{textAlign: 'center'}}>{this.getDurationLabel(this.state.matchDurationTimer.duration)}</Text>
                                 <Slider
                                     value={this.state.matchDurationTimer.duration}
+                                    accessibilityLabel={'Temps de jeu'}
                                     minimumValue={5}
                                     maximumValue={240}
                                     onValueChange={(duration: number) => this.updateDuration(duration, this.state)}
                                     step={5}
                                 />
                             </View>
-                            <TextInput label='Joueur 1' value={this.state.timer.playerA} onChangeText={(text: string) => this.updatePlayerA(text, this.state)}/>
-                            <TextInput label='Joueur 2' value={this.state.timer.playerB} onChangeText={(text: string) => this.updatePlayerB(text, this.state)}/>
+                            <TextInput
+                                label="Joueur 1"
+                                value={this.state.timer.playerA}
+                                accessibilityLabel={'Nom du joueur 1'}
+                                onChangeText={(text: string) => this.updatePlayerA(text, this.state)}
+                            />
+                            <TextInput
+                                label="Joueur 2"
+                                value={this.state.timer.playerB}
+                                accessibilityLabel={'Nom du joueur 2'}
+                                onChangeText={(text: string) => this.updatePlayerB(text, this.state)}
+                            />
                         </Card.Content>
                     </Card>
 
                     <View style={[styles.item, styles.buttons]}>
-                        <Button style={styles.button} mode={'contained-tonal'} onPress={() => this.props.onClose()}>Fermer</Button>
-                        <Button style={styles.button} mode={'contained'} onPress={() => this.props.onChange(this.state.timer)}>Sauvegarder</Button>
+                        <Button style={styles.button} mode={'contained-tonal'}
+                                onPress={() => this.props.onClose()}>Fermer</Button>
+                        <Button style={styles.button} mode={'contained'}
+                                onPress={() => this.props.onChange(this.state.timer)}>Sauvegarder</Button>
                     </View>
                 </View>
             </View>

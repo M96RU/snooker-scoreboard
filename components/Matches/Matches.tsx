@@ -47,7 +47,10 @@ class Matches extends React.Component<MatchesProps, MatchesState> {
             <View>
                 {
                     this.props.matches.sort(this.sortByTableName).map(match => {
-                        return <Pressable key={match.id} onPress={() => this.setState({match: match})}>
+                        return <Pressable
+                            accessibilityLabel={'Match ' + match.id} key={match.id}
+                            onPress={() => this.setState({match: match})}
+                        >
                             <Match match={match}/>
                         </Pressable>
                     })

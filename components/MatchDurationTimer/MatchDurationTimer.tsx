@@ -122,18 +122,18 @@ const MatchDurationTimer = (props: MatchDurationTimerProps) => {
 
     return (
         <Card>
-            <Card.Title title={"Temps de match"}/>
+            <Card.Title title={'Temps de match'}/>
             <Card.Content>
                 <Text style={counterStyle} variant="displayLarge">{remainsLabel(remains)}</Text>
                 <View style={styles.buttons}>
-                    <Pressable onPress={start} disabled={!breakAllowed}>
-                        <MaterialIcons name="play-arrow" size={64} color={breakAllowed ? "black" : "grey"}/>
+                    <Pressable accessibilityLabel={'Début'} onPress={start} disabled={!breakAllowed}>
+                        <MaterialIcons name="play-arrow" size={64} color={breakAllowed ? 'black' : 'grey'}/>
                     </Pressable>
-                    <Pressable onPress={restart} disabled={!nextAllowed}>
-                        <MaterialIcons name="stop" size={64} color={nextAllowed ? "black" : "grey"}/>
+                    <Pressable accessibilityLabel={'Recommencer'} onPress={restart} disabled={!nextAllowed}>
+                        <MaterialIcons name="stop" size={64} color={nextAllowed ? 'black' : 'grey'}/>
                     </Pressable>
-                    <Pressable onPress={pause} disabled={breakAllowed}>
-                        <MaterialIcons name="pause" size={64} color={breakAllowed ? "grey" : "black"}/>
+                    <Pressable accessibilityLabel={'Pause'} onPress={pause} disabled={breakAllowed}>
+                        <MaterialIcons name="pause" size={64} color={breakAllowed ? 'grey' : 'black'}/>
                     </Pressable>
                 </View>
             </Card.Content>

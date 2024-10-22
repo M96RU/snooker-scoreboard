@@ -36,12 +36,16 @@ class MatchDetail extends React.Component<MatchProps, MatchState> {
 
         return (
             <View>
-                <Pressable style={styles.closeButton} onPress={() => this.props.onClose()}>
-                    <MaterialIcons name="close" size={32} color={'white'}/>
+                <Pressable
+                    accessibilityLabel={'Fermer'}
+                    style={styles.closeButton}
+                    onPress={() => this.props.onClose()}
+                >
+                    <MaterialIcons name="close" size={40} color={'white'}/>
                 </Pressable>
                 <View style={styles.header}>
-                    <Text style={styles.draw} variant={"displayLarge"}>{match.draw}</Text>
-                    <Text style={styles.round} variant={"displaySmall"}>{match.roundName}</Text>
+                    <Text style={styles.draw} variant={'displayLarge'}>{match.draw}</Text>
+                    <Text style={styles.round} variant={'displaySmall'}>{match.roundName}</Text>
                 </View>
                 <Text style={styles.subHeader}>Table {match.tableName} - Premier à {match.raceTo}</Text>
                 <View style={styles.players}>
