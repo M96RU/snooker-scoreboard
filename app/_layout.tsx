@@ -48,10 +48,10 @@ export default function DrawerLayout() {
             drawerLabelStyle: {marginLeft: -20}
         }}>
             <Drawer.Screen name={'index'} options={{
-                drawerLabel: 'Home',
-                headerTitle: 'Timer 8 Pool - Billard en direct',
-                drawerIcon: ({color}) => (
-                    <MaterialIcons size={50} name={'home'} color={color}/>
+                drawerLabel: 'Timer 8 Pool',
+                headerTitle: 'Timer 8 Pool',
+                drawerIcon: ({color, focused}) => (
+                    <MaterialIcons size={50} name={focused ? 'hourglass-bottom' : 'hourglass-top'} color={color}/>
                 )
             }}/>
             <Drawer.Screen name={'ffb'} options={{
@@ -79,13 +79,6 @@ export default function DrawerLayout() {
                 headerTitle: 'Cuescore Scorer',
                 drawerIcon: ({color}) => (
                     <MaterialIcons size={50} name={'qr-code-scanner'} color={color}/>
-                )
-            }}/>
-            <Drawer.Screen name={'timer'} options={{
-                drawerLabel: 'Timer',
-                headerTitle: 'Timer',
-                drawerIcon: ({color, focused}) => (
-                    <MaterialIcons size={50} name={focused ? 'hourglass-bottom' : 'hourglass-top'} color={color}/>
                 )
             }}/>
         </Drawer>

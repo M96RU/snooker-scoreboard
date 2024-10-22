@@ -1,7 +1,7 @@
-import {View} from 'react-native';
+import Scorer from '@/pages/Scorer';
 
 export default function Index() {
     return (
-        <View/>
+        <Scorer/>
     );
 }
