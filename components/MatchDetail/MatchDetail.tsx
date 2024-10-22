@@ -41,7 +41,7 @@ class MatchDetail extends React.Component<MatchProps, MatchState> {
                     style={styles.closeButton}
                     onPress={() => this.props.onClose()}
                 >
-                    <MaterialIcons name="close" size={40} color={'white'}/>
+                    <MaterialIcons name="close" size={50} color={'white'}/>
                 </Pressable>
                 <View style={styles.header}>
                     <Text style={styles.draw} variant={'displayLarge'}>{match.draw}</Text>

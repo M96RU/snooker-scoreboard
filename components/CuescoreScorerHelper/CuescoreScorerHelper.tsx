@@ -15,7 +15,6 @@ export default function CuescoreScorerHelper(props: Props) {
     const [loading, setLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
-        // console.log(new Date() + "CuescoreScorer");
         if (loading && time == 0) {
             // first update
             retrieveMatch();

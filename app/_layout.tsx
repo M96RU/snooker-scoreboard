@@ -50,8 +50,8 @@ export default function DrawerLayout() {
             <Drawer.Screen name={'index'} options={{
                 drawerLabel: 'Home',
                 headerTitle: 'Timer 8 Pool - Billard en direct',
-                drawerIcon: ({color, focused}) => (
-                    <MaterialIcons size={40} name={'home'} color={color}/>
+                drawerIcon: ({color}) => (
+                    <MaterialIcons size={50} name={'home'} color={color}/>
                 )
             }}/>
             <Drawer.Screen name={'ffb'} options={{
@@ -61,7 +61,7 @@ export default function DrawerLayout() {
                     display: ffb && ffb.display ? undefined : 'none'
                 },
                 drawerIcon: () => (
-                    <Image source={require('@/assets/images/ffb.png')} style={{width: 40, height: 40}}/>
+                    <Image source={require('@/assets/images/ffb.png')} style={{width: 50, height: 50}}/>
                 )
             }}/>
             <Drawer.Screen name={'lbara'} options={{
@@ -71,21 +71,21 @@ export default function DrawerLayout() {
                     display: lbara && lbara.display ? undefined : 'none'
                 },
                 drawerIcon: () => (
-                    <Image source={require('@/assets/images/lbara.png')} style={{width: 40, height: 40}}/>
+                    <Image source={require('@/assets/images/lbara.png')} style={{width: 50, height: 50}}/>
                 )
             }}/>
             <Drawer.Screen name={'cuescore'} options={{
                 drawerLabel: 'Cuescore Scorer',
                 headerTitle: 'Cuescore Scorer',
                 drawerIcon: ({color}) => (
-                    <MaterialIcons size={40} name={'qr-code-scanner'} color={color}/>
+                    <MaterialIcons size={50} name={'qr-code-scanner'} color={color}/>
                 )
             }}/>
             <Drawer.Screen name={'timer'} options={{
                 drawerLabel: 'Timer',
                 headerTitle: 'Timer',
                 drawerIcon: ({color, focused}) => (
-                    <MaterialIcons size={40} name={focused ? 'hourglass-bottom' : 'hourglass-top'} color={color}/>
+                    <MaterialIcons size={50} name={focused ? 'hourglass-bottom' : 'hourglass-top'} color={color}/>
                 )
             }}/>
         </Drawer>

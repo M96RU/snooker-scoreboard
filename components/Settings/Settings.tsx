@@ -205,11 +205,14 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                             />
                         </Card.Content>
                         <Card.Actions>
-                            <Button mode={'text'} disabled={this.state.mode === Mode.CUSTOM}
+                            <Button labelStyle={styles.buttonText} accessibilityLabel={'Modifier'} mode={'text'}
+                                    disabled={this.state.mode === Mode.CUSTOM}
                                     onPress={() => this.edit(this.state)}>Modifier</Button>
-                            <Button mode={'text'} disabled={this.state.mode === Mode.FBEP}
+                            <Button labelStyle={styles.buttonText} accessibilityLabel={'FBEP'} mode={'text'}
+                                    disabled={this.state.mode === Mode.FBEP}
                                     onPress={() => this.switchToFBEP(this.state)}>FBEP</Button>
-                            <Button mode={'text'} disabled={this.state.mode === Mode.FFB}
+                            <Button labelStyle={styles.buttonText} accessibilityLabel={'FFB'} mode={'text'}
+                                    disabled={this.state.mode === Mode.FFB}
                                     onPress={() => this.switchToFFB(this.state)}>FFB</Button>
                         </Card.Actions>
                     </Card>
@@ -273,6 +276,9 @@ const styles = StyleSheet.create({
     button: {
         flex: 1,
         margin: 5
+    },
+    buttonText: {
+        fontSize: 20
     }
 });
 

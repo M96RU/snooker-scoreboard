@@ -39,8 +39,6 @@ export default function CuescoreScaner(props: Props) {
         );
     }
 
-
-
     return (
         <View style={styles.container}>
             <CameraView
@@ -48,7 +46,7 @@ export default function CuescoreScaner(props: Props) {
                 barcodeScannerSettings={{
                     barcodeTypes: ["qr"],
                 }}
-                onBarcodeScanned={(ok: BarcodeScanningResult) => props.close(ok.data)}
+                onBarcodeScanned={(scan: BarcodeScanningResult) => props.close(scan.data)}
             />
         </View>
     );
